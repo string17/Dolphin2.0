@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1,firefox=2" />
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="../../assets/img/apple-icon.png">
+    <link rel="icon" href="../../assets/img/favicon.png">
+    <title>Dolphin</title>
+
+    <!-- Extra details for Live View on GitHub Pages -->
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="https://www.creative-tim.com/product/material-dashboard-pro" />
+    <!--  Social tags      -->
+    <!-- Schema.org markup for Google+ -->
+    <meta itemprop="image" content="../../../../s3.amazonaws.com/creativetim_bucket/products/51/original/opt_mdp_thumbnail.jpg">
+    <!-- Open Graph data -->
+    <meta property="fb:app_id" content="655968634437471">
+    <meta property="og:title" content="Material Dashboard PRO by Creative Tim" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://demos.creative-tim.com/material-kit-pro/presentation.html" />
+    <meta property="og:image" content="../../../../s3.amazonaws.com/creativetim_bucket/products/51/original/opt_mdp_thumbnail.jpg" />
+    <meta property="og:description" content="Material Dashboard PRO is a Premium Material Bootstrap 4 Admin with a fresh, new design inspired by Google's Material Design." />
+    <meta property="og:site_name" content="Creative Tim" />
+
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+
+    <link type="text/css" href="~/assets/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" />
+
+    <link type="text/css" rel="stylesheet" href="~/assets/css/material-dashboard.min790f.css?v=2.0.1">
+
+
+    <!-- Documentation extras -->
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="~/assets/assets-for-demo/demo.css" rel="stylesheet" />
+    <!-- iframe removal -->
+
+    <script type="text/javascript">
+        if (document.readyState === 'complete') {
+            if (window.location != window.parent.location) {
+                const elements = document.getElementsByClassName("iframe-extern");
+                while (elemnts.lenght > 0) elements[0].remove();
+                // $(".iframe-extern").remove();
+            }
+        };
+    </script>
+
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-primary navbar-transparent navbar-absolute" color-on-scroll="500">
+        <div class="container">
+            <div class="navbar-wrapper">
+                @*<a class="navbar-brand" href="#pablo">Material Dashboard Pro</a>*@
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="navbar-toggler-icon icon-bar"></span>
+                <span class="navbar-toggler-icon icon-bar"></span>
+                <span class="navbar-toggler-icon icon-bar"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbar">
+
+            </div>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <div class="wrapper wrapper-full-page">
+        <div class="page-header login-page header-filter" filter-color="black" style="background-image: url('../../assets/img/mywall.jpg'); background-size: cover;  background-position: top center;">
+            <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+
+            @RenderBody()
+
+
+        </div>
+
+    </div>
+
+    <!--   Core JS Files   -->
+    <script type="text/javascript" src="~/assets/js/core/jquery.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/core/popper.min.js"></script>
+
+    <script type="text/javascript" src="~/assets/js/bootstrap-material-design.min.js"></script>
+
+    <script type="text/javascript" src="~/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+
+    <!--  Google Maps Plugin  -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2Yno10-YTnLjjn_Vtk0V8cdcY5lC4plU"></script>
+
+    <!--  Plugin for Date Time Picker and Full Calendar Plugin  -->
+    <script type="text/javascript" src="~/assets/js/plugins/moment.min.js"></script>
+    <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
+    <script type="text/javascript" src="~/assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
+    <!--	Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+    <script type="text/javascript" src="~/assets/js/plugins/nouislider.min.js"></script>
+
+    <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+    <script type="text/javascript" src="~/assets/js/plugins/bootstrap-selectpicker.js"></script>
+    <!--	Plugin for Tags, full documentation here: http://xoxco.com/projects/code/tagsinput/  -->
+    <script type="text/javascript" src="~/assets/js/plugins/bootstrap-tagsinput.js"></script>
+    <!--	Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+    <script type="text/javascript" src="~/assets/js/plugins/jasny-bootstrap.min.js"></script>
+    <!-- Plugins for presentation and navigation  -->
+    <script type="text/javascript" src="~/assets/assets-for-demo/js/modernizr.js"></script>
+
+
+    <!-- Material Kit Core initialisations of plugins and Bootstrap Material Design Library -->
+    <script type="text/javascript" src="~/assets/js/material-dashboard790f.js?v=2.0.1"></script>
+
+    <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+    <script type="text/javascript" src="~/assets/cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+    <!-- Library for adding dinamically elements -->
+    <script type="text/javascript" src="~/assets/js/plugins/arrive.min.js"></script>
+    <!-- Forms Validations Plugin -->
+    <script type="text/javascript" src="~/assets/js/plugins/jquery.validate.min.js"></script>
+    <!--  Charts Plugin, full documentation here: https://gionkunz.github.io/chartist-js/ -->
+    <script type="text/javascript" src="~/assets/js/plugins/chartist.min.js"></script>
+    <!--  Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+    <script type="text/javascript" src="~/assets/js/plugins/jquery.bootstrap-wizard.js"></script>
+    <!--  Notifications Plugin, full documentation here: http://bootstrap-notify.remabledesigns.com/    -->
+    <script type="text/javascript" src="~/assets/js/plugins/bootstrap-notify.js"></script>
+    <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
+    <script type="text/javascript" src="~/assets/js/plugins/jquery-jvectormap.js"></script>
+    <!-- Sliders Plugin, full documentation here: https://refreshless.com/nouislider/ -->
+    <script type="text/javascript" src="~/assets/js/plugins/nouislider.min.js"></script>
+    <!--  Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+    <script type="text/javascript" src="~/assets/js/plugins/jquery.select-bootstrap.js"></script>
+    <!--  DataTables.net Plugin, full documentation here: https://datatables.net/    -->
+    <script type="text/javascript" src="~/assets/js/plugins/jquery.datatables.js"></script>
+    <!-- Sweet Alert 2 plugin, full documentation here: https://limonte.github.io/sweetalert2/ -->
+    <script type="text/javascript" src="~/assets/js/plugins/sweetalert2.js"></script>
+    <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+    <script type="text/javascript" src="~/assets/js/plugins/jasny-bootstrap.min.js"></script>
+    <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
+    <script type="text/javascript" src="~/assets/js/plugins/fullcalendar.min.js"></script>
+    <!-- demo init -->
+    <script type="text/javascript" src="~/assets/js/plugins/demo.js"></script>
+
+    <script type="text/javascript">
+        $().ready(function () {
+            demo.checkFullPageBackgroundImage();
+
+            setTimeout(function () {
+                // after 1000 ms we add the class animated to the login/register card
+                $('.card').removeClass('card-hidden');
+            }, 700)
+        });
+    </script>
+
+
+
+</body>
+
+
+
+</html>
