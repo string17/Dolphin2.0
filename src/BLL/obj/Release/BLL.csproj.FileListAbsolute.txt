@@ -1,0 +1,10 @@
+D:\Development\fountain\src\BLL\bin\Release\BLL.dll
+D:\Development\fountain\src\BLL\bin\Release\BLL.pdb
+D:\Development\fountain\src\BLL\bin\Release\DAL.dll
+D:\Development\fountain\src\BLL\bin\Release\log4net.dll
+D:\Development\fountain\src\BLL\bin\Release\NPoco.dll
+D:\Development\fountain\src\BLL\bin\Release\DAL.pdb
+D:\Development\fountain\src\BLL\bin\Release\log4net.xml
+D:\Development\fountain\src\BLL\obj\Release\BLL.csprojResolveAssemblyReference.cache
+D:\Development\fountain\src\BLL\obj\Release\BLL.dll
+D:\Development\fountain\src\BLL\obj\Release\BLL.pdb

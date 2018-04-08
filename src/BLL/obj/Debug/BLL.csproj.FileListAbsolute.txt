@@ -1,0 +1,47 @@
+C:\Users\USER\Documents\visual studio 2015\Projects\PureFountain\BLL\bin\Debug\BLL.dll
+C:\Users\USER\Documents\visual studio 2015\Projects\PureFountain\BLL\bin\Debug\BLL.pdb
+C:\Users\USER\Documents\visual studio 2015\Projects\PureFountain\BLL\bin\Debug\DAL.dll
+C:\Users\USER\Documents\visual studio 2015\Projects\PureFountain\BLL\bin\Debug\log4net.dll
+C:\Users\USER\Documents\visual studio 2015\Projects\PureFountain\BLL\bin\Debug\NPoco.dll
+C:\Users\USER\Documents\visual studio 2015\Projects\PureFountain\BLL\bin\Debug\DAL.pdb
+C:\Users\USER\Documents\visual studio 2015\Projects\PureFountain\BLL\bin\Debug\log4net.xml
+C:\Users\USER\Documents\visual studio 2015\Projects\PureFountain\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+C:\Users\USER\Documents\visual studio 2015\Projects\PureFountain\BLL\obj\Debug\BLL.dll
+C:\Users\USER\Documents\visual studio 2015\Projects\PureFountain\BLL\obj\Debug\BLL.pdb
+D:\Development\fountain\src\BLL\bin\Debug\BLL.dll
+D:\Development\fountain\src\BLL\bin\Debug\BLL.pdb
+D:\Development\fountain\src\BLL\bin\Debug\DAL.dll
+D:\Development\fountain\src\BLL\bin\Debug\log4net.dll
+D:\Development\fountain\src\BLL\bin\Debug\NPoco.dll
+D:\Development\fountain\src\BLL\bin\Debug\DAL.pdb
+D:\Development\fountain\src\BLL\bin\Debug\log4net.xml
+D:\Development\fountain\src\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\Development\fountain\src\BLL\obj\Debug\BLL.dll
+D:\Development\fountain\src\BLL\obj\Debug\BLL.pdb
+D:\Development\Dolphin2.0\BLL\bin\Debug\BLL.dll
+D:\Development\Dolphin2.0\BLL\bin\Debug\BLL.pdb
+D:\Development\Dolphin2.0\BLL\bin\Debug\DAL.dll
+D:\Development\Dolphin2.0\BLL\bin\Debug\Microsoft.Web.Infrastructure.dll
+D:\Development\Dolphin2.0\BLL\bin\Debug\System.Web.Helpers.dll
+D:\Development\Dolphin2.0\BLL\bin\Debug\System.Web.Mvc.dll
+D:\Development\Dolphin2.0\BLL\bin\Debug\System.Web.Razor.dll
+D:\Development\Dolphin2.0\BLL\bin\Debug\System.Web.WebPages.Deployment.dll
+D:\Development\Dolphin2.0\BLL\bin\Debug\System.Web.WebPages.dll
+D:\Development\Dolphin2.0\BLL\bin\Debug\System.Web.WebPages.Razor.dll
+D:\Development\Dolphin2.0\BLL\bin\Debug\Unity.Abstractions.dll
+D:\Development\Dolphin2.0\BLL\bin\Debug\Unity.Container.dll
+D:\Development\Dolphin2.0\BLL\bin\Debug\Unity.Mvc.dll
+D:\Development\Dolphin2.0\BLL\bin\Debug\WebActivatorEx.dll
+D:\Development\Dolphin2.0\BLL\bin\Debug\DAL.pdb
+D:\Development\Dolphin2.0\BLL\bin\Debug\DAL.dll.config
+D:\Development\Dolphin2.0\BLL\bin\Debug\System.Web.Helpers.xml
+D:\Development\Dolphin2.0\BLL\bin\Debug\System.Web.Mvc.xml
+D:\Development\Dolphin2.0\BLL\bin\Debug\System.Web.Razor.xml
+D:\Development\Dolphin2.0\BLL\bin\Debug\System.Web.WebPages.xml
+D:\Development\Dolphin2.0\BLL\bin\Debug\System.Web.WebPages.Deployment.xml
+D:\Development\Dolphin2.0\BLL\bin\Debug\System.Web.WebPages.Razor.xml
+D:\Development\Dolphin2.0\BLL\bin\Debug\Unity.Mvc.xml
+D:\Development\Dolphin2.0\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\Development\Dolphin2.0\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
+D:\Development\Dolphin2.0\BLL\obj\Debug\BLL.dll
+D:\Development\Dolphin2.0\BLL\obj\Debug\BLL.pdb
