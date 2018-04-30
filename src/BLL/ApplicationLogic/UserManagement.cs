@@ -1,82 +1,34 @@
 ﻿using DAL.CustomObjects;
-using DAL.Interfaces;
 using DolphinContext.Data.Models;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using System.Web.Configuration;
 
 namespace BLL.ApplicationLogic
 {
-    public class UserManagement : IUser
+    public class UserManagement
     {
         private readonly DolphinDb _db = DolphinDb.GetInstance();
-        public LoginResponse ValidateUser(UserObj userLogin)
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        public UserInfo GetUserInfo(UserObj userLogin)
         {
-            var _password = EncryptPassword(userLogin.Password);
-            string sql = "select A.*,B.* from DolUser A inner join DolRole B on A.RoleId=B.RoleId where A.UserName=@0 and A.UserPWD=@1";
-            var _actual = _db.FirstOrDefault<LoginResponse>(sql, userLogin.Username, _password);
+            string sql = "select A.*,B.*,C.ClientAlias from Dol_User A inner join User_Role B on A.RoleId=B.RoleId inner join Dol_Client C on C.ClientId=A.ClientId where A.UserName=@0 and A.IsDelete='false' ";
+            var _actual = _db.FirstOrDefault<UserInfo>(sql, userLogin.Username);
             return _actual;
 
         }
 
-
-
-
-        private string EncryptPassword(string UserPWD)
-        {
-            string EncryptionKey = "MAKV2SPBNI99212";
-            byte[] clearBytes = Encoding.Unicode.GetBytes(UserPWD);
-            using (Aes encryptor = Aes.Create())
-            {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-                encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(clearBytes, 0, clearBytes.Length);
-                        cs.Close();
-                    }
-                    UserPWD = Convert.ToBase64String(ms.ToArray());
-                }
-            }
-            return UserPWD;
-        }
-
-        private string DecryptPassword(string UserPWD)
-        {
-            string EncryptionKey = "MAKV2SPBNI99212";
-            byte[] cipherBytes = Convert.FromBase64String(UserPWD);
-            using (Aes encryptor = Aes.Create())
-            {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-                encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(cipherBytes, 0, cipherBytes.Length);
-                        cs.Close();
-                    }
-                    UserPWD = Encoding.Unicode.GetString(ms.ToArray());
-                }
-            }
-            return UserPWD;
-        }
-
-
-        //public DolUser getUserByUsername(string Username)
-        //{
-        //    string sql = "Select * from DolUser where UserName =@0";
-        //    var actual = _db.FirstOrDefault<DolUser>(sql, Username.ToUpper());
-        //    return actual;
-        //}
+       
 
         public DolUser GetUserByUsername(string Username, int? CompanyId)
         {
@@ -144,14 +96,14 @@ namespace BLL.ApplicationLogic
         //    return userView;
         //}
 
-        public LoginResponse GetUserById(int UserId)
+        public UserInfo GetUserById(int UserId)
         {
             var _actual = _db.SingleOrDefault<DolUser>("where UserId=@0", UserId);
-            var _company = _db.SingleOrDefault<DolCompany>("where CompanyId=@0", _actual.Companyid);
-            var _role = _db.SingleOrDefault<DolRole>("Where RoleId=@0", _actual.Roleid);
-            LoginResponse _userObj = new LoginResponse()
+            var _company = _db.SingleOrDefault<DolClient>("where ClientId=@0", _actual.Clientid);
+            var _role = _db.SingleOrDefault<UserRole>("Where RoleId=@0", _actual.Roleid);
+            UserInfo _userObj = new UserInfo()
             {
-                CompanyId= _actual.Companyid,
+                ClientId= _actual.Clientid,
                 FirstName = _actual.Firstname,
                 MiddleName = _actual.Middlename,
                 LastName = _actual.Lastname,
@@ -159,7 +111,7 @@ namespace BLL.ApplicationLogic
                 Password = _actual.Password,
                 RoleId = _actual.Roleid,
                 PhoneNo = _actual.Phoneno,
-                Alias = _company.Alias,
+                Alias = _company.Clientalias,
                 RoleName=_role.Title,
                 UserImg = _actual.Userimg
 
@@ -207,12 +159,12 @@ namespace BLL.ApplicationLogic
             return actual;
         }
 
-        public List<DolMenu> GetMenuByUsername(string Username)
+        public List<DolMenuItem> GetMenuByUsername(string Username)
         {
             try
             {
                 string SQL = "select A.* from DolMenu A inner join DolRole_Menu B on A.MenuId = B.MenuId inner join DolUser c on c.RoleId = B.RoleId where c.UserName =@0";
-                var actual = _db.Fetch<DolMenu>(SQL, Username);
+                var actual = _db.Fetch<DolMenuItem>(SQL, Username);
                 return actual;
             }
             catch (Exception ex)
@@ -222,7 +174,7 @@ namespace BLL.ApplicationLogic
         }
         public bool DoesUsernameExists(string Username)
         {
-            var rslt = _db.Fetch<DolUser>().Where(a => a.Username == Username);
+            var rslt = _db.SingleOrDefault<DolUser>("where UserName=@0", Username); //.Where(a => a.Username == Username);
             if (rslt == null)
             {
                 return false;
@@ -236,9 +188,9 @@ namespace BLL.ApplicationLogic
 
         public bool DoesPasswordExists(string Username, string Password)
         {
-            string _password = EncryptPassword(Password);
+            string _password = new EncryptionManager().EncryptValue(Password);
             var rslt = _db.FirstOrDefault<DolUser>("where UserName=@0 and Password=@1", Username, _password);
-            if (rslt.Password == Password)
+            if (rslt != null)
             {
                 return true;
             }
@@ -248,11 +200,67 @@ namespace BLL.ApplicationLogic
             }
         }
 
-        public bool InsertUser(DolUser Username)
+        public bool IsUserActive(string Username, string Password)
+        {
+            string _password =new EncryptionManager().EncryptValue(Password);
+            var rslt = _db.FirstOrDefault<DolUser>("where UserName=@0 and Password=@1" , Username, _password);
+            if (rslt.Isuseractive==true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool IsCompanyActive(string username)
+        {
+            string sql = "select A.*,B.* from Dol_User A inner join Dol_Client B on B.ClientId=A.ClientId inner join User_Role C on C.RoleId=A.RoleId where A.UserName=@0";
+            var _actual = _db.SingleOrDefault<UserInfo>(sql, username);
+            if (_actual.IsClientActive)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+           
+        }
+
+        public bool DoesEmailExists(string Email)
+        {
+            var rslt = _db.SingleOrDefault<DolUser>("where Email=@0", Email); 
+            if (rslt == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool InsertUser(UserDetails userDetails)
         {
             try
             {
-                _db.Insert(Username);
+                var user = new DolUser();
+                user.Firstname = userDetails.FirstName;
+                user.Middlename = userDetails.MiddleName;
+                user.Username = userDetails.UserName;
+                user.Email = userDetails.Email;
+                user.Password = userDetails.Password;
+                user.Phoneno = userDetails.PhoneNo;
+                user.Roleid = userDetails.RoleId;
+                user.Clientid = userDetails.ClientId;
+                user.Userimg = DoFileUpload(userDetails.UserImg);
+                user.Isuseractive = userDetails.IsUserActive;
+                user.Isdelete = userDetails.IsDelete;
+                user.Createdby = userDetails.CreatedBy;
+                user.Createdon = userDetails.CreatedOn;
+                _db.Insert(userDetails);
                 return true;
             }
             catch (Exception ex)
@@ -265,7 +273,7 @@ namespace BLL.ApplicationLogic
 
         public int GetFreshUser(string Username)
         {
-            string sql = "Select COUNT(*) from AuditTrail where UserName = @0";
+            string sql = "Select COUNT(*) from Audit_Trail where UserName = @0";
             var _actual = _db.ExecuteScalar<int>(sql, Username);
             return Convert.ToInt32(_actual);
         }
@@ -278,22 +286,22 @@ namespace BLL.ApplicationLogic
 
 
 
-        public bool UpdateUser(string FirstName, string MiddleName, string LastName, string UserName, string Password, string UserImg, string PhoneNo, int? RoleId, bool? Status, string ModifiedBy, DateTime ModifiedOn, int? UserId)
+        public bool ModifyUserDetails(UserDetails userDetails)
         {
             try
             {
-                var _users = _db.SingleOrDefault<DolUser>("WHERE UserId=@0", UserId);
-                _users.Firstname = FirstName;
-                _users.Middlename = MiddleName;
-                _users.Lastname = LastName;
-                _users.Username = UserName;
-                _users.Password = Password;
-                _users.Userimg = UserImg;
-                _users.Phoneno = PhoneNo;
-                _users.Roleid = RoleId;
-                _users.Status = Status;
-                _users.Modifiedby = ModifiedBy;
-                _users.Modifiedon = ModifiedOn;
+                var _users = _db.SingleOrDefault<DolUser>("WHERE UserId=@0", userDetails.UserId);
+                _users.Firstname = userDetails.FirstName;
+                _users.Middlename = userDetails.MiddleName;
+                _users.Lastname = userDetails.LastName;
+                _users.Username = userDetails.UserName;
+                _users.Password = new EncryptionManager().EncryptValue(userDetails.Password);
+                _users.Userimg = DoFileUpload(userDetails.UserImg);
+                _users.Phoneno = userDetails.PhoneNo;
+                _users.Roleid = userDetails.RoleId;
+                _users.Isuseractive = userDetails.Status;
+                _users.Modifiedby = userDetails.ModifiedBy;
+                _users.Modifiedon = userDetails.ModifiedOn;
                 _db.Update(_users);
                 return true;
             }
@@ -304,22 +312,20 @@ namespace BLL.ApplicationLogic
         }
 
 
-        public bool UpdateProfile(string FirstName, string MiddleName, string LastName, string UserName, string Password, string UserImg, string PhoneNo, string ModifiedBy, DateTime ModifiedOn, string Username)
+        public bool UpdateProfile(UserDetails userDetails)
         {
             try
             {
-                var _user = _db.SingleOrDefault<DolUser>("WHERE UserName=@0", Username);
-                _user.Firstname = FirstName;
-                _user.Middlename = MiddleName;
-                _user.Lastname = LastName;
-                _user.Userimg = UserImg;
-                _user.Username = UserName;
-                _user.Password = Password;
-                _user.Phoneno = PhoneNo;
-                //users.RoleId = RoleId;
-                //users.UserStatus = UserStatus;
-                _user.Modifiedby = ModifiedBy;
-                _user.Modifiedon = ModifiedOn;
+                var _user = _db.SingleOrDefault<DolUser>("WHERE UserName=@0", userDetails.UserName);
+                _user.Firstname = userDetails.FirstName;
+                _user.Middlename = userDetails.MiddleName;
+                _user.Lastname = userDetails.LastName;
+                _user.Userimg = DoFileUpload(userDetails.UserImg);
+                _user.Username = userDetails.UserName;
+                _user.Password = new EncryptionManager().EncryptValue(userDetails.Password);
+                _user.Phoneno = userDetails.PhoneNo;
+                _user.Modifiedby = userDetails.ModifiedBy;
+                _user.Modifiedon = userDetails.ModifiedOn;
                 _db.Update(_user);
                 return true;
             }
@@ -329,7 +335,66 @@ namespace BLL.ApplicationLogic
             }
         }
 
-        public string DoFileUpload(HttpPostedFileBase pic, string filename = "")
+
+        public UserResponse PasswordNotification(string Email)
+        {
+            bool email = DoesEmailExists(Email);
+            if (email)
+            {
+                EmailObj emailModel = new EmailObj();
+                string _domainUsername = WebConfigurationManager.AppSettings["UserName"];
+                string _domainPWD = WebConfigurationManager.AppSettings["PWD"];
+                string PasswordUrl = WebConfigurationManager.AppSettings["BaseURL"];
+                var body = "Kindly click on this link  to reset your password. </br>" + PasswordUrl + "Dolphin/Resetpassword?Email=" + Email;
+                var message = new MailMessage();
+                message.To.Add(new MailAddress(Email));  // replace with valid value 
+                message.From = new MailAddress(WebConfigurationManager.AppSettings["SupportAddress"]);  // replace with valid value
+                message.Subject = "Password Update";
+                message.Body = string.Format(body, emailModel.FromEmail, emailModel.Message);
+                message.IsBodyHtml = true;
+
+                using (SmtpClient smtp = new SmtpClient())
+                {
+                    try
+                    {
+                        smtp.Host = WebConfigurationManager.AppSettings["EmailHost"];
+                        smtp.EnableSsl = true;
+                        NetworkCredential NetworkCred = new NetworkCredential(_domainUsername, _domainPWD);
+                        smtp.UseDefaultCredentials = true;
+                        smtp.Credentials = NetworkCred;
+                        smtp.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["EmailPort"]);
+                        smtp.Send(message);
+                        return new UserResponse
+                        {
+                            RespCode = "00",
+                            RespMessage ="kindly check your email"
+                        };
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.InfoFormat("Email", ex.Message);
+                        return new UserResponse
+                        {
+                            RespCode = "01",
+                            RespMessage = ex.Message
+                        };
+                    }
+                }
+            }
+            else
+            {
+                return new UserResponse {
+
+                    RespCode="01",
+                    RespMessage="Invalid email address"
+
+                };
+            }
+            
+        }
+
+
+        private string DoFileUpload(HttpPostedFileBase pic, string filename = "")
         {
             if (pic == null && string.IsNullOrWhiteSpace(filename))
             {
@@ -341,63 +406,5 @@ namespace BLL.ApplicationLogic
             pic.SaveAs(HttpContext.Current.Server.MapPath("~/Content/UserImg/") + result);
             return result;
         }
-
-
-        public List<DolMenu> GetMenuByRoleId(decimal RoleId)
-        {
-            string SQL = "select DolMenu.MenuId,DolMenu.MenuName,DolMenu.MenuURL,DolMenu.LinkIcon,DolMenu.ExternalUrl, DolRole_Menu.MenuId,DolMenu.ParentId,RoleId from DolMenu INNER JOIN DolRole_Menu ON DolMenu.MenuId=DolRole_Menu.MenuId WHERE DolRole_Menu.RoleId=" + RoleId;
-            var actual = _db.Fetch<DolMenu>(SQL);
-            return (actual);
-        }
-
-
-        public List<DolMenu> GetMenuByMenuId()
-        {
-            var actual = _db.Fetch<DolMenu>();
-            return actual;
-        }
-
-        public DolMenu GetMenuByName(string MenuName)
-        {
-            string SQL = "Select * from DolMenu where MenuName =@0";
-            var actual = _db.FirstOrDefault<DolMenu>(SQL, MenuName);
-            return actual;
-        }
-
-        public List<DolMenu> getMenuByUsername(string Username)
-        {
-            try
-            {
-                string SQL = "select A.* from DolMenu A inner join DolRole_Menu B on A.MenuId = B.MenuId inner join DolUser c on c.RoleId = B.RoleId where c.UserName =@0";
-                var actual = _db.Fetch<DolMenu>(SQL, Username);
-                return actual;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
-        public List<DolMenu> getMenuById()
-        {
-            var actual = _db.Fetch<DolMenu>();
-            return actual;
-        }
-
-        public bool InsertMenu(DolMenu MenuName)
-        {
-            try
-            {
-                _db.Insert(MenuName);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-
-        }
-
-
     }
 }

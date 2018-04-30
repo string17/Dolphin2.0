@@ -73,15 +73,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unity.Abstractions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\Dolphin2.0\packages\Unity.Abstractions.3.3.0\lib\net45\Unity.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Container, Version=5.7.0.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\Dolphin2.0\packages\Unity.Container.5.7.0\lib\net45\Unity.Container.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mvc, Version=5.0.13.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\Dolphin2.0\packages\Unity.Mvc.5.0.13\lib\net45\Unity.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <HintPath>..\Dolphin2.0\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
@@ -89,11 +80,11 @@
   <ItemGroup>
     <Compile Include="ApplicationLogic\AuditManagement.cs" />
     <Compile Include="ApplicationLogic\BaseManagement.cs" />
-    <Compile Include="ApplicationLogic\InstitutionManagement.cs" />
+    <Compile Include="ApplicationLogic\ClientManagement.cs" />
+    <Compile Include="ApplicationLogic\EncryptionManager.cs" />
+    <Compile Include="ApplicationLogic\MenuManagement.cs" />
     <Compile Include="ApplicationLogic\RoleManagement.cs" />
     <Compile Include="ApplicationLogic\UserManagement.cs" />
-    <Compile Include="App_Start\UnityConfig.cs" />
-    <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

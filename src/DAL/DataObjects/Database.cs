@@ -150,168 +150,68 @@ namespace DolphinContext.Data.Models
 			}		
 		}	
 	}		
-		[TableName("dbo.DolIncident")]
-		[PrimaryKey("IncidentId")]
+		[TableName("dbo.User_Tracking")]
+		[PrimaryKey("Tid")]
 		[ExplicitColumns]
-		public partial class DolIncident : DolphinDb.Record<DolIncident>  
+		public partial class UserTracking : DolphinDb.Record<UserTracking>  
 		{
-			[Column("IncidentId")] public int Incidentid 
+	        [Column] public int Tid 
 			{ 
-				get { return _Incidentid; }
-				set { _Incidentid = value; Track("IncidentId"); }
+				get { return _Tid; }
+				set { _Tid = value; Track("Tid"); }
 			}
-			int _Incidentid;
-			[Column("IncidentRef")] public string Incidentref 
-			{ 
-				get { return _Incidentref; }
-				set { _Incidentref = value; Track("IncidentRef"); }
-			}
-			string _Incidentref;
-			[Column("TerminalId")] public string Terminalid 
-			{ 
-				get { return _Terminalid; }
-				set { _Terminalid = value; Track("TerminalId"); }
-			}
-			string _Terminalid;
+			int _Tid;
 			[Column("UserName")] public string Username 
 			{ 
 				get { return _Username; }
 				set { _Username = value; Track("UserName"); }
 			}
 			string _Username;
-			[Column("IncidentDesc")] public string Incidentdesc 
+			[Column("SessionId")] public string Sessionid 
 			{ 
-				get { return _Incidentdesc; }
-				set { _Incidentdesc = value; Track("IncidentDesc"); }
+				get { return _Sessionid; }
+				set { _Sessionid = value; Track("SessionId"); }
 			}
-			string _Incidentdesc;
-			[Column("ResponseDateTime")] public DateTime? Responsedatetime 
+			string _Sessionid;
+			[Column("SystemIp")] public string Systemip 
 			{ 
-				get { return _Responsedatetime; }
-				set { _Responsedatetime = value; Track("ResponseDateTime"); }
+				get { return _Systemip; }
+				set { _Systemip = value; Track("SystemIp"); }
 			}
-			DateTime? _Responsedatetime;
-			[Column("IncidentDateTime")] public DateTime? Incidentdatetime 
+			string _Systemip;
+			[Column("SystemName")] public string Systemname 
 			{ 
-				get { return _Incidentdatetime; }
-				set { _Incidentdatetime = value; Track("IncidentDateTime"); }
+				get { return _Systemname; }
+				set { _Systemname = value; Track("SystemName"); }
 			}
-			DateTime? _Incidentdatetime;
-			[Column("IncidentStatus")] public string Incidentstatus 
+			string _Systemname;
+			[Column("LoginDate")] public DateTime? Logindate 
 			{ 
-				get { return _Incidentstatus; }
-				set { _Incidentstatus = value; Track("IncidentStatus"); }
+				get { return _Logindate; }
+				set { _Logindate = value; Track("LoginDate"); }
 			}
-			string _Incidentstatus;
+			DateTime? _Logindate;
 		
-			public static IEnumerable<DolIncident> Query(Database db, string[] columns = null, int[] Incidentid = null)
+			public static IEnumerable<UserTracking> Query(Database db, string[] columns = null, int[] Tid = null)
             {
                 var sql = new Sql();
 
                 if (columns != null)
                     sql.Select(columns);
 
-                sql.From("dbo.DolIncident (NOLOCK)");
+                sql.From("dbo.User_Tracking (NOLOCK)");
 
-				if (Incidentid != null)
-					sql.Where("IncidentId IN (@0)", Incidentid);
+				if (Tid != null)
+					sql.Where("Tid IN (@0)", Tid);
 
-                return db.Query<DolIncident>(sql);
+                return db.Query<UserTracking>(sql);
             }
 		}
 		
-		[TableName("dbo.DolAssigned")]
-		[PrimaryKey("CallId")]
-		[ExplicitColumns]
-		public partial class DolAssigned : DolphinDb.Record<DolAssigned>  
-		{
-			[Column("CallId")] public int Callid 
-			{ 
-				get { return _Callid; }
-				set { _Callid = value; Track("CallId"); }
-			}
-			int _Callid;
-			[Column("IncidentRef")] public string Incidentref 
-			{ 
-				get { return _Incidentref; }
-				set { _Incidentref = value; Track("IncidentRef"); }
-			}
-			string _Incidentref;
-			[Column("CallAssigned")] public string Callassigned 
-			{ 
-				get { return _Callassigned; }
-				set { _Callassigned = value; Track("CallAssigned"); }
-			}
-			string _Callassigned;
-			[Column("TerminalId")] public string Terminalid 
-			{ 
-				get { return _Terminalid; }
-				set { _Terminalid = value; Track("TerminalId"); }
-			}
-			string _Terminalid;
-			[Column("EngAssigned")] public string Engassigned 
-			{ 
-				get { return _Engassigned; }
-				set { _Engassigned = value; Track("EngAssigned"); }
-			}
-			string _Engassigned;
-			[Column("EngResolved")] public string Engresolved 
-			{ 
-				get { return _Engresolved; }
-				set { _Engresolved = value; Track("EngResolved"); }
-			}
-			string _Engresolved;
-			[Column("CallStatus")] public string Callstatus 
-			{ 
-				get { return _Callstatus; }
-				set { _Callstatus = value; Track("CallStatus"); }
-			}
-			string _Callstatus;
-			[Column("PartUsed")] public string Partused 
-			{ 
-				get { return _Partused; }
-				set { _Partused = value; Track("PartUsed"); }
-			}
-			string _Partused;
-			[Column("PerformanceMs")] public string Performancems 
-			{ 
-				get { return _Performancems; }
-				set { _Performancems = value; Track("PerformanceMs"); }
-			}
-			string _Performancems;
-			[Column("DateResolved")] public DateTime? Dateresolved 
-			{ 
-				get { return _Dateresolved; }
-				set { _Dateresolved = value; Track("DateResolved"); }
-			}
-			DateTime? _Dateresolved;
-			[Column("TimeResolved")] public DateTime? Timeresolved 
-			{ 
-				get { return _Timeresolved; }
-				set { _Timeresolved = value; Track("TimeResolved"); }
-			}
-			DateTime? _Timeresolved;
-		
-			public static IEnumerable<DolAssigned> Query(Database db, string[] columns = null, int[] Callid = null)
-            {
-                var sql = new Sql();
-
-                if (columns != null)
-                    sql.Select(columns);
-
-                sql.From("dbo.DolAssigned (NOLOCK)");
-
-				if (Callid != null)
-					sql.Where("CallId IN (@0)", Callid);
-
-                return db.Query<DolAssigned>(sql);
-            }
-		}
-		
-		[TableName("dbo.DolRole")]
+		[TableName("dbo.User_Role")]
 		[PrimaryKey("RoleId")]
 		[ExplicitColumns]
-		public partial class DolRole : DolphinDb.Record<DolRole>  
+		public partial class UserRole : DolphinDb.Record<UserRole>  
 		{
 			[Column("RoleId")] public int Roleid 
 			{ 
@@ -331,171 +231,33 @@ namespace DolphinContext.Data.Models
 				set { _Desc = value; Track("_Desc"); }
 			}
 			string _Desc;
-	        [Column] public bool? Status 
+			[Column("IsRoleActive")] public bool? Isroleactive 
 			{ 
-				get { return _Status; }
-				set { _Status = value; Track("Status"); }
+				get { return _Isroleactive; }
+				set { _Isroleactive = value; Track("IsRoleActive"); }
 			}
-			bool? _Status;
-			[Column("IsDelete")] public bool? Isdelete 
-			{ 
-				get { return _Isdelete; }
-				set { _Isdelete = value; Track("IsDelete"); }
-			}
-			bool? _Isdelete;
+			bool? _Isroleactive;
 		
-			public static IEnumerable<DolRole> Query(Database db, string[] columns = null, int[] Roleid = null)
+			public static IEnumerable<UserRole> Query(Database db, string[] columns = null, int[] Roleid = null)
             {
                 var sql = new Sql();
 
                 if (columns != null)
                     sql.Select(columns);
 
-                sql.From("dbo.DolRole (NOLOCK)");
+                sql.From("dbo.User_Role (NOLOCK)");
 
 				if (Roleid != null)
 					sql.Where("RoleId IN (@0)", Roleid);
 
-                return db.Query<DolRole>(sql);
+                return db.Query<UserRole>(sql);
             }
 		}
 		
-		[TableName("dbo.DolItem")]
-		[PrimaryKey("ItemId")]
-		[ExplicitColumns]
-		public partial class DolItem : DolphinDb.Record<DolItem>  
-		{
-			[Column("ItemId")] public int Itemid 
-			{ 
-				get { return _Itemid; }
-				set { _Itemid = value; Track("ItemId"); }
-			}
-			int _Itemid;
-			[Column("ItemName")] public string Itemname 
-			{ 
-				get { return _Itemname; }
-				set { _Itemname = value; Track("ItemName"); }
-			}
-			string _Itemname;
-			[Column("ItemDesc")] public string Itemdesc 
-			{ 
-				get { return _Itemdesc; }
-				set { _Itemdesc = value; Track("ItemDesc"); }
-			}
-			string _Itemdesc;
-			[Column("ItemStatus")] public bool? Itemstatus 
-			{ 
-				get { return _Itemstatus; }
-				set { _Itemstatus = value; Track("ItemStatus"); }
-			}
-			bool? _Itemstatus;
-		
-			public static IEnumerable<DolItem> Query(Database db, string[] columns = null, int[] Itemid = null)
-            {
-                var sql = new Sql();
-
-                if (columns != null)
-                    sql.Select(columns);
-
-                sql.From("dbo.DolItem (NOLOCK)");
-
-				if (Itemid != null)
-					sql.Where("ItemId IN (@0)", Itemid);
-
-                return db.Query<DolItem>(sql);
-            }
-		}
-		
-		[TableName("dbo.DolRole_Menu")]
+		[TableName("dbo.User_AuditTrail")]
 		[PrimaryKey("Id")]
 		[ExplicitColumns]
-		public partial class DolRoleMenu : DolphinDb.Record<DolRoleMenu>  
-		{
-	        [Column] public int Id 
-			{ 
-				get { return _Id; }
-				set { _Id = value; Track("Id"); }
-			}
-			int _Id;
-			[Column("RoleId")] public int? Roleid 
-			{ 
-				get { return _Roleid; }
-				set { _Roleid = value; Track("RoleId"); }
-			}
-			int? _Roleid;
-			[Column("MenuId")] public int? Menuid 
-			{ 
-				get { return _Menuid; }
-				set { _Menuid = value; Track("MenuId"); }
-			}
-			int? _Menuid;
-			[Column("MapDesc")] public string Mapdesc 
-			{ 
-				get { return _Mapdesc; }
-				set { _Mapdesc = value; Track("MapDesc"); }
-			}
-			string _Mapdesc;
-		
-			public static IEnumerable<DolRoleMenu> Query(Database db, string[] columns = null, int[] Id = null)
-            {
-                var sql = new Sql();
-
-                if (columns != null)
-                    sql.Select(columns);
-
-                sql.From("dbo.DolRole_Menu (NOLOCK)");
-
-				if (Id != null)
-					sql.Where("Id IN (@0)", Id);
-
-                return db.Query<DolRoleMenu>(sql);
-            }
-		}
-		
-		[TableName("dbo.DolBrand")]
-		[PrimaryKey("BrandId")]
-		[ExplicitColumns]
-		public partial class DolBrand : DolphinDb.Record<DolBrand>  
-		{
-			[Column("BrandId")] public int Brandid 
-			{ 
-				get { return _Brandid; }
-				set { _Brandid = value; Track("BrandId"); }
-			}
-			int _Brandid;
-			[Column("BrandName")] public string Brandname 
-			{ 
-				get { return _Brandname; }
-				set { _Brandname = value; Track("BrandName"); }
-			}
-			string _Brandname;
-			[Column("BrandDesc")] public string Branddesc 
-			{ 
-				get { return _Branddesc; }
-				set { _Branddesc = value; Track("BrandDesc"); }
-			}
-			string _Branddesc;
-		
-			public static IEnumerable<DolBrand> Query(Database db, string[] columns = null, int[] Brandid = null)
-            {
-                var sql = new Sql();
-
-                if (columns != null)
-                    sql.Select(columns);
-
-                sql.From("dbo.DolBrand (NOLOCK)");
-
-				if (Brandid != null)
-					sql.Where("BrandId IN (@0)", Brandid);
-
-                return db.Query<DolBrand>(sql);
-            }
-		}
-		
-		[TableName("dbo.AuditTrail")]
-		[PrimaryKey("Id")]
-		[ExplicitColumns]
-		public partial class AuditTrail : DolphinDb.Record<AuditTrail>  
+		public partial class UserAuditTrail : DolphinDb.Record<UserAuditTrail>  
 		{
 	        [Column] public int Id 
 			{ 
@@ -515,12 +277,12 @@ namespace DolphinContext.Data.Models
 				set { _Useractivity = value; Track("UserActivity"); }
 			}
 			string _Useractivity;
-	        [Column] public string Comments 
+	        [Column] public string Comment 
 			{ 
-				get { return _Comments; }
-				set { _Comments = value; Track("Comments"); }
+				get { return _Comment; }
+				set { _Comment = value; Track("Comment"); }
 			}
-			string _Comments;
+			string _Comment;
 			[Column("DateLog")] public DateTime? Datelog 
 			{ 
 				get { return _Datelog; }
@@ -540,105 +302,23 @@ namespace DolphinContext.Data.Models
 			}
 			string _Systemip;
 		
-			public static IEnumerable<AuditTrail> Query(Database db, string[] columns = null, int[] Id = null)
+			public static IEnumerable<UserAuditTrail> Query(Database db, string[] columns = null, int[] Id = null)
             {
                 var sql = new Sql();
 
                 if (columns != null)
                     sql.Select(columns);
 
-                sql.From("dbo.AuditTrail (NOLOCK)");
+                sql.From("dbo.User_AuditTrail (NOLOCK)");
 
 				if (Id != null)
 					sql.Where("Id IN (@0)", Id);
 
-                return db.Query<AuditTrail>(sql);
+                return db.Query<UserAuditTrail>(sql);
             }
 		}
 		
-		[TableName("dbo.DolMenu")]
-		[PrimaryKey("MenuId")]
-		[ExplicitColumns]
-		public partial class DolMenu : DolphinDb.Record<DolMenu>  
-		{
-			[Column("MenuId")] public int Menuid 
-			{ 
-				get { return _Menuid; }
-				set { _Menuid = value; Track("MenuId"); }
-			}
-			int _Menuid;
-			[Column("MenuName")] public string Menuname 
-			{ 
-				get { return _Menuname; }
-				set { _Menuname = value; Track("MenuName"); }
-			}
-			string _Menuname;
-			[Column("MenuURL")] public string Menuurl 
-			{ 
-				get { return _Menuurl; }
-				set { _Menuurl = value; Track("MenuURL"); }
-			}
-			string _Menuurl;
-			[Column("MenuDesc")] public string Menudesc 
-			{ 
-				get { return _Menudesc; }
-				set { _Menudesc = value; Track("MenuDesc"); }
-			}
-			string _Menudesc;
-			[Column("ParentId")] public int? Parentid 
-			{ 
-				get { return _Parentid; }
-				set { _Parentid = value; Track("ParentId"); }
-			}
-			int? _Parentid;
-	        [Column] public int? Sequence 
-			{ 
-				get { return _Sequence; }
-				set { _Sequence = value; Track("Sequence"); }
-			}
-			int? _Sequence;
-			[Column("ExternalURL")] public string Externalurl 
-			{ 
-				get { return _Externalurl; }
-				set { _Externalurl = value; Track("ExternalURL"); }
-			}
-			string _Externalurl;
-			[Column("MenuStatus")] public bool? Menustatus 
-			{ 
-				get { return _Menustatus; }
-				set { _Menustatus = value; Track("MenuStatus"); }
-			}
-			bool? _Menustatus;
-			[Column("LinkIcon")] public string Linkicon 
-			{ 
-				get { return _Linkicon; }
-				set { _Linkicon = value; Track("LinkIcon"); }
-			}
-			string _Linkicon;
-			[Column("IsDelete")] public bool? Isdelete 
-			{ 
-				get { return _Isdelete; }
-				set { _Isdelete = value; Track("IsDelete"); }
-			}
-			bool? _Isdelete;
-		
-			public static IEnumerable<DolMenu> Query(Database db, string[] columns = null, int[] Menuid = null)
-            {
-                var sql = new Sql();
-
-                if (columns != null)
-                    sql.Select(columns);
-
-                sql.From("dbo.DolMenu (NOLOCK)");
-
-				if (Menuid != null)
-					sql.Where("MenuId IN (@0)", Menuid);
-
-                return db.Query<DolMenu>(sql);
-            }
-		}
-		
-		[TableName("dbo.DolUser")]
+		[TableName("dbo.Dol_User")]
 		[PrimaryKey("UserId")]
 		[ExplicitColumns]
 		public partial class DolUser : DolphinDb.Record<DolUser>  
@@ -673,48 +353,54 @@ namespace DolphinContext.Data.Models
 				set { _Username = value; Track("UserName"); }
 			}
 			string _Username;
-	        [Column] public string Password 
-			{ 
-				get { return _Password; }
-				set { _Password = value; Track("Password"); }
-			}
-			string _Password;
 	        [Column] public string Email 
 			{ 
 				get { return _Email; }
 				set { _Email = value; Track("Email"); }
 			}
 			string _Email;
+	        [Column] public string Password 
+			{ 
+				get { return _Password; }
+				set { _Password = value; Track("Password"); }
+			}
+			string _Password;
 			[Column("PhoneNo")] public string Phoneno 
 			{ 
 				get { return _Phoneno; }
 				set { _Phoneno = value; Track("PhoneNo"); }
 			}
 			string _Phoneno;
-			[Column("UserImg")] public string Userimg 
-			{ 
-				get { return _Userimg; }
-				set { _Userimg = value; Track("UserImg"); }
-			}
-			string _Userimg;
-			[Column("CompanyId")] public int? Companyid 
-			{ 
-				get { return _Companyid; }
-				set { _Companyid = value; Track("CompanyId"); }
-			}
-			int? _Companyid;
 			[Column("RoleId")] public int? Roleid 
 			{ 
 				get { return _Roleid; }
 				set { _Roleid = value; Track("RoleId"); }
 			}
 			int? _Roleid;
-	        [Column] public bool? Status 
+			[Column("ClientId")] public int? Clientid 
 			{ 
-				get { return _Status; }
-				set { _Status = value; Track("Status"); }
+				get { return _Clientid; }
+				set { _Clientid = value; Track("ClientId"); }
 			}
-			bool? _Status;
+			int? _Clientid;
+			[Column("UserImg")] public string Userimg 
+			{ 
+				get { return _Userimg; }
+				set { _Userimg = value; Track("UserImg"); }
+			}
+			string _Userimg;
+			[Column("IsUserActive")] public bool? Isuseractive 
+			{ 
+				get { return _Isuseractive; }
+				set { _Isuseractive = value; Track("IsUserActive"); }
+			}
+			bool? _Isuseractive;
+			[Column("IsDelete")] public bool? Isdelete 
+			{ 
+				get { return _Isdelete; }
+				set { _Isdelete = value; Track("IsDelete"); }
+			}
+			bool? _Isdelete;
 			[Column("CreatedBy")] public string Createdby 
 			{ 
 				get { return _Createdby; }
@@ -739,12 +425,6 @@ namespace DolphinContext.Data.Models
 				set { _Modifiedon = value; Track("ModifiedOn"); }
 			}
 			DateTime? _Modifiedon;
-			[Column("IsDelete")] public bool? Isdelete 
-			{ 
-				get { return _Isdelete; }
-				set { _Isdelete = value; Track("IsDelete"); }
-			}
-			bool? _Isdelete;
 		
 			public static IEnumerable<DolUser> Query(Database db, string[] columns = null, int[] Userid = null)
             {
@@ -753,7 +433,7 @@ namespace DolphinContext.Data.Models
                 if (columns != null)
                     sql.Select(columns);
 
-                sql.From("dbo.DolUser (NOLOCK)");
+                sql.From("dbo.Dol_User (NOLOCK)");
 
 				if (Userid != null)
 					sql.Where("UserId IN (@0)", Userid);
@@ -762,35 +442,35 @@ namespace DolphinContext.Data.Models
             }
 		}
 		
-		[TableName("dbo.DolCompany")]
-		[PrimaryKey("CompanyId")]
+		[TableName("dbo.Dol_Client")]
+		[PrimaryKey("ClientId")]
 		[ExplicitColumns]
-		public partial class DolCompany : DolphinDb.Record<DolCompany>  
+		public partial class DolClient : DolphinDb.Record<DolClient>  
 		{
-			[Column("CompanyId")] public int Companyid 
+			[Column("ClientId")] public int Clientid 
 			{ 
-				get { return _Companyid; }
-				set { _Companyid = value; Track("CompanyId"); }
+				get { return _Clientid; }
+				set { _Clientid = value; Track("ClientId"); }
 			}
-			int _Companyid;
-	        [Column] public string Title 
+			int _Clientid;
+			[Column("ClientName")] public string Clientname 
 			{ 
-				get { return _Title; }
-				set { _Title = value; Track("Title"); }
+				get { return _Clientname; }
+				set { _Clientname = value; Track("ClientName"); }
 			}
-			string _Title;
-	        [Column] public string Alias 
+			string _Clientname;
+			[Column("ClientAlias")] public string Clientalias 
 			{ 
-				get { return _Alias; }
-				set { _Alias = value; Track("Alias"); }
+				get { return _Clientalias; }
+				set { _Clientalias = value; Track("ClientAlias"); }
 			}
-			string _Alias;
-	        [Column] public string Banner 
+			string _Clientalias;
+			[Column("ClientBanner")] public string Clientbanner 
 			{ 
-				get { return _Banner; }
-				set { _Banner = value; Track("Banner"); }
+				get { return _Clientbanner; }
+				set { _Clientbanner = value; Track("ClientBanner"); }
 			}
-			string _Banner;
+			string _Clientbanner;
 			[Column("RespTime")] public string Resptime 
 			{ 
 				get { return _Resptime; }
@@ -803,236 +483,214 @@ namespace DolphinContext.Data.Models
 				set { _Resttime = value; Track("RestTime"); }
 			}
 			string _Resttime;
-			[Column("Rest1Time")] public string Rest1time 
+			[Column("IsClientActive")] public bool? Isclientactive 
 			{ 
-				get { return _Rest1time; }
-				set { _Rest1time = value; Track("Rest1Time"); }
+				get { return _Isclientactive; }
+				set { _Isclientactive = value; Track("IsClientActive"); }
 			}
-			string _Rest1time;
-	        [Column] public bool? Status 
-			{ 
-				get { return _Status; }
-				set { _Status = value; Track("Status"); }
-			}
-			bool? _Status;
-			[Column("IsDelete")] public bool? Isdelete 
-			{ 
-				get { return _Isdelete; }
-				set { _Isdelete = value; Track("IsDelete"); }
-			}
-			bool? _Isdelete;
-			[Column("CreatedBy")] public string Createdby 
-			{ 
-				get { return _Createdby; }
-				set { _Createdby = value; Track("CreatedBy"); }
-			}
-			string _Createdby;
+			bool? _Isclientactive;
 			[Column("CreatedOn")] public DateTime? Createdon 
 			{ 
 				get { return _Createdon; }
 				set { _Createdon = value; Track("CreatedOn"); }
 			}
 			DateTime? _Createdon;
-		
-			public static IEnumerable<DolCompany> Query(Database db, string[] columns = null, int[] Companyid = null)
-            {
-                var sql = new Sql();
-
-                if (columns != null)
-                    sql.Select(columns);
-
-                sql.From("dbo.DolCompany (NOLOCK)");
-
-				if (Companyid != null)
-					sql.Where("CompanyId IN (@0)", Companyid);
-
-                return db.Query<DolCompany>(sql);
-            }
-		}
-		
-		[TableName("dbo.DolRegion")]
-		[PrimaryKey("RegId")]
-		[ExplicitColumns]
-		public partial class DolRegion : DolphinDb.Record<DolRegion>  
-		{
-			[Column("RegId")] public int Regid 
-			{ 
-				get { return _Regid; }
-				set { _Regid = value; Track("RegId"); }
-			}
-			int _Regid;
-			[Column("RegionName")] public string Regionname 
-			{ 
-				get { return _Regionname; }
-				set { _Regionname = value; Track("RegionName"); }
-			}
-			string _Regionname;
-		
-			public static IEnumerable<DolRegion> Query(Database db, string[] columns = null, int[] Regid = null)
-            {
-                var sql = new Sql();
-
-                if (columns != null)
-                    sql.Select(columns);
-
-                sql.From("dbo.DolRegion (NOLOCK)");
-
-				if (Regid != null)
-					sql.Where("RegId IN (@0)", Regid);
-
-                return db.Query<DolRegion>(sql);
-            }
-		}
-		
-		[TableName("dbo.DolState")]
-		[PrimaryKey("Sid")]
-		[ExplicitColumns]
-		public partial class DolState : DolphinDb.Record<DolState>  
-		{
-	        [Column] public int Sid 
-			{ 
-				get { return _Sid; }
-				set { _Sid = value; Track("Sid"); }
-			}
-			int _Sid;
-			[Column("StateName")] public string Statename 
-			{ 
-				get { return _Statename; }
-				set { _Statename = value; Track("StateName"); }
-			}
-			string _Statename;
-		
-			public static IEnumerable<DolState> Query(Database db, string[] columns = null, int[] Sid = null)
-            {
-                var sql = new Sql();
-
-                if (columns != null)
-                    sql.Select(columns);
-
-                sql.From("dbo.DolState (NOLOCK)");
-
-				if (Sid != null)
-					sql.Where("Sid IN (@0)", Sid);
-
-                return db.Query<DolState>(sql);
-            }
-		}
-		
-		[TableName("dbo.DolTerminal")]
-		[PrimaryKey("Tid")]
-		[ExplicitColumns]
-		public partial class DolTerminal : DolphinDb.Record<DolTerminal>  
-		{
-	        [Column] public int Tid 
-			{ 
-				get { return _Tid; }
-				set { _Tid = value; Track("Tid"); }
-			}
-			int _Tid;
-			[Column("CustomerName")] public string Customername 
-			{ 
-				get { return _Customername; }
-				set { _Customername = value; Track("CustomerName"); }
-			}
-			string _Customername;
-			[Column("TerminalId")] public string Terminalid 
-			{ 
-				get { return _Terminalid; }
-				set { _Terminalid = value; Track("TerminalId"); }
-			}
-			string _Terminalid;
-			[Column("TSNum")] public string Tsnum 
-			{ 
-				get { return _Tsnum; }
-				set { _Tsnum = value; Track("TSNum"); }
-			}
-			string _Tsnum;
-			[Column("TerminalRef")] public string Terminalref 
-			{ 
-				get { return _Terminalref; }
-				set { _Terminalref = value; Track("TerminalRef"); }
-			}
-			string _Terminalref;
-			[Column("BrandName")] public string Brandname 
-			{ 
-				get { return _Brandname; }
-				set { _Brandname = value; Track("BrandName"); }
-			}
-			string _Brandname;
-			[Column("TLocation")] public string Tlocation 
-			{ 
-				get { return _Tlocation; }
-				set { _Tlocation = value; Track("TLocation"); }
-			}
-			string _Tlocation;
-			[Column("TState")] public string Tstate 
-			{ 
-				get { return _Tstate; }
-				set { _Tstate = value; Track("TState"); }
-			}
-			string _Tstate;
-			[Column("TAlias")] public string Talias 
-			{ 
-				get { return _Talias; }
-				set { _Talias = value; Track("TAlias"); }
-			}
-			string _Talias;
-			[Column("RegionName")] public string Regionname 
-			{ 
-				get { return _Regionname; }
-				set { _Regionname = value; Track("RegionName"); }
-			}
-			string _Regionname;
-			[Column("TEng")] public string Teng 
-			{ 
-				get { return _Teng; }
-				set { _Teng = value; Track("TEng"); }
-			}
-			string _Teng;
-			[Column("TerminalStatus")] public bool? Terminalstatus 
-			{ 
-				get { return _Terminalstatus; }
-				set { _Terminalstatus = value; Track("TerminalStatus"); }
-			}
-			bool? _Terminalstatus;
 			[Column("CreatedBy")] public string Createdby 
 			{ 
 				get { return _Createdby; }
 				set { _Createdby = value; Track("CreatedBy"); }
 			}
 			string _Createdby;
-			[Column("CreatedOn")] public DateTime? Createdon 
-			{ 
-				get { return _Createdon; }
-				set { _Createdon = value; Track("CreatedOn"); }
-			}
-			DateTime? _Createdon;
-			[Column("ModifiedBy")] public string Modifiedby 
-			{ 
-				get { return _Modifiedby; }
-				set { _Modifiedby = value; Track("ModifiedBy"); }
-			}
-			string _Modifiedby;
-			[Column("ModifiedOn")] public DateTime? Modifiedon 
-			{ 
-				get { return _Modifiedon; }
-				set { _Modifiedon = value; Track("ModifiedOn"); }
-			}
-			DateTime? _Modifiedon;
 		
-			public static IEnumerable<DolTerminal> Query(Database db, string[] columns = null, int[] Tid = null)
+			public static IEnumerable<DolClient> Query(Database db, string[] columns = null, int[] Clientid = null)
             {
                 var sql = new Sql();
 
                 if (columns != null)
                     sql.Select(columns);
 
-                sql.From("dbo.DolTerminal (NOLOCK)");
+                sql.From("dbo.Dol_Client (NOLOCK)");
 
-				if (Tid != null)
-					sql.Where("Tid IN (@0)", Tid);
+				if (Clientid != null)
+					sql.Where("ClientId IN (@0)", Clientid);
 
-                return db.Query<DolTerminal>(sql);
+                return db.Query<DolClient>(sql);
+            }
+		}
+		
+		[TableName("dbo.Role_Menu")]
+		[PrimaryKey("Id")]
+		[ExplicitColumns]
+		public partial class RoleMenu : DolphinDb.Record<RoleMenu>  
+		{
+	        [Column] public int Id 
+			{ 
+				get { return _Id; }
+				set { _Id = value; Track("Id"); }
+			}
+			int _Id;
+			[Column("ItemId")] public int? Itemid 
+			{ 
+				get { return _Itemid; }
+				set { _Itemid = value; Track("ItemId"); }
+			}
+			int? _Itemid;
+			[Column("RoleId")] public int? Roleid 
+			{ 
+				get { return _Roleid; }
+				set { _Roleid = value; Track("RoleId"); }
+			}
+			int? _Roleid;
+			[Column("MenuDesc")] public string Menudesc 
+			{ 
+				get { return _Menudesc; }
+				set { _Menudesc = value; Track("MenuDesc"); }
+			}
+			string _Menudesc;
+		
+			public static IEnumerable<RoleMenu> Query(Database db, string[] columns = null, int[] Id = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("dbo.Role_Menu (NOLOCK)");
+
+				if (Id != null)
+					sql.Where("Id IN (@0)", Id);
+
+                return db.Query<RoleMenu>(sql);
+            }
+		}
+		
+		[TableName("dbo.Dol_MenuItem")]
+		[ExplicitColumns]
+		public partial class DolMenuItem : DolphinDb.Record<DolMenuItem>  
+		{
+			[Column("ItemId")] public int Itemid 
+			{ 
+				get { return _Itemid; }
+				set { _Itemid = value; Track("ItemId"); }
+			}
+			int _Itemid;
+			[Column("ItemName")] public string Itemname 
+			{ 
+				get { return _Itemname; }
+				set { _Itemname = value; Track("ItemName"); }
+			}
+			string _Itemname;
+			[Column("ItemURL")] public string Itemurl 
+			{ 
+				get { return _Itemurl; }
+				set { _Itemurl = value; Track("ItemURL"); }
+			}
+			string _Itemurl;
+			[Column("ItemDesc")] public string Itemdesc 
+			{ 
+				get { return _Itemdesc; }
+				set { _Itemdesc = value; Track("ItemDesc"); }
+			}
+			string _Itemdesc;
+			[Column("MenuId")] public int? Menuid 
+			{ 
+				get { return _Menuid; }
+				set { _Menuid = value; Track("MenuId"); }
+			}
+			int? _Menuid;
+	        [Column] public int? Sequence 
+			{ 
+				get { return _Sequence; }
+				set { _Sequence = value; Track("Sequence"); }
+			}
+			int? _Sequence;
+			[Column("ExternalURL")] public string Externalurl 
+			{ 
+				get { return _Externalurl; }
+				set { _Externalurl = value; Track("ExternalURL"); }
+			}
+			string _Externalurl;
+			[Column("ItemStatus")] public bool? Itemstatus 
+			{ 
+				get { return _Itemstatus; }
+				set { _Itemstatus = value; Track("ItemStatus"); }
+			}
+			bool? _Itemstatus;
+			[Column("ItemIcon")] public string Itemicon 
+			{ 
+				get { return _Itemicon; }
+				set { _Itemicon = value; Track("ItemIcon"); }
+			}
+			string _Itemicon;
+			[Column("ItemAlias")] public string Itemalias 
+			{ 
+				get { return _Itemalias; }
+				set { _Itemalias = value; Track("ItemAlias"); }
+			}
+			string _Itemalias;
+		}
+		
+		[TableName("dbo.Audit_Trail")]
+		[PrimaryKey("AuditId")]
+		[ExplicitColumns]
+		public partial class AuditTrail : DolphinDb.Record<AuditTrail>  
+		{
+			[Column("AuditId")] public int Auditid 
+			{ 
+				get { return _Auditid; }
+				set { _Auditid = value; Track("AuditId"); }
+			}
+			int _Auditid;
+			[Column("UserName")] public string Username 
+			{ 
+				get { return _Username; }
+				set { _Username = value; Track("UserName"); }
+			}
+			string _Username;
+			[Column("UserActivity")] public string Useractivity 
+			{ 
+				get { return _Useractivity; }
+				set { _Useractivity = value; Track("UserActivity"); }
+			}
+			string _Useractivity;
+	        [Column] public string Comment 
+			{ 
+				get { return _Comment; }
+				set { _Comment = value; Track("Comment"); }
+			}
+			string _Comment;
+			[Column("DateLog")] public DateTime? Datelog 
+			{ 
+				get { return _Datelog; }
+				set { _Datelog = value; Track("DateLog"); }
+			}
+			DateTime? _Datelog;
+			[Column("SystemName")] public string Systemname 
+			{ 
+				get { return _Systemname; }
+				set { _Systemname = value; Track("SystemName"); }
+			}
+			string _Systemname;
+			[Column("SystemIP")] public string Systemip 
+			{ 
+				get { return _Systemip; }
+				set { _Systemip = value; Track("SystemIP"); }
+			}
+			string _Systemip;
+		
+			public static IEnumerable<AuditTrail> Query(Database db, string[] columns = null, int[] Auditid = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("dbo.Audit_Trail (NOLOCK)");
+
+				if (Auditid != null)
+					sql.Where("AuditId IN (@0)", Auditid);
+
+                return db.Query<AuditTrail>(sql);
             }
 		}
 }
