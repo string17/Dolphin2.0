@@ -12,31 +12,62 @@ namespace BLL.ApplicationLogic
     public class ClientManagement
     {
         private readonly DolphinDb _db = DolphinDb.GetInstance();
-        public List<DolClient> GetCompanyById()
+
+        //public List<DolClient> GetClientById()
+        //{
+        //    var actual = _db.Fetch<DolClient>().ToList();
+        //    return actual;
+        //}
+
+        public List<DolClient> GetClientList()
         {
             var actual = _db.Fetch<DolClient>().ToList();
             return actual;
         }
 
-        public List<DolClient> ExcludeCompany(string company)
+        public List<DolClient> ExcludeClient(string ClientName)
         {
-            string sql = "Select * from DolCompany where Title <> @0 ";
-            var actual = _db.Fetch<DolClient>(sql,company).ToList();
+            string sql = "Select * from Dol_Client where ClientName <> @0 ";
+            var actual = _db.Fetch<DolClient>(sql, ClientName).ToList();
             return actual;
         }
 
-        public DolClient GetCompanyById(int? Id)
+        public ClientResp GetClientDetails(int? ClientId)
         {
-            string sql = "Select * from DolCompany where Id =@0";
-            var actual = _db.FirstOrDefault<DolClient>(sql, Id);
-            return actual;
+            string sql = "Select * from Dol_Client where ClientId =@0";
+            var actual = _db.FirstOrDefault<DolClient>(sql, ClientId);
+            if (actual != null)
+            {
+                return new ClientResp
+                {
+                    RespCode = "00",
+                    RespMessage = "Success",
+                    ClientId=actual.Clientid,
+                    ClientBanner = actual.Clientbanner,
+                    ClientAlias = actual.Clientalias,
+                    ClientName = actual.Clientname,
+                    RestTime = actual.Resttime,
+                    RespTime = actual.Resptime,
+                    IsClientActive = actual.Isclientactive,
+                    CreatedBy = actual.Createdby,
+                    CreatedOn = actual.Createdon
+                };
+            }
+            else
+            {
+                return new ClientResp
+                {
+                    RespCode = "04",
+                    RespMessage = "Failure"
+                };
+            }
+         }
 
-        }
 
-        public DolClient GetCompanyByName(string CustomerName)
+        public DolClient GetClientByName(string ClientName)
         {
-            string SQL = "Select * from DolCompany where Title =@0";
-            var actual = _db.FirstOrDefault<DolClient>(SQL, CustomerName);
+            string SQL = "Select * from Dol_Client where ClientName =@0";
+            var actual = _db.FirstOrDefault<DolClient>(SQL, ClientName);
             return actual;
         }
 
@@ -55,11 +86,19 @@ namespace BLL.ApplicationLogic
         }
 
 
-        public bool InsertClient(DolClient Title)
+        public bool InsertClient(string ClientName, string ClientAlias, string ClientBanner, int RespTime, int RestTime, bool IsClientActive,string CreatedBy)
         {
             try
             {
-                _db.Insert(Title);
+                var client = new DolClient();
+                client.Clientname = ClientName;
+                client.Clientalias = ClientAlias;
+                client.Resptime = RespTime;
+                client.Resttime = RestTime;
+                client.Isclientactive = IsClientActive;
+                client.Createdon = DateTime.Now;
+                client.Createdby = CreatedBy;
+                _db.Insert(client);
                 return true;
             }
             catch (Exception)
@@ -69,18 +108,18 @@ namespace BLL.ApplicationLogic
 
         }
 
-        public bool UpdateClient(ExtClientObj client)
+        public bool UpdateClient(string ClientName, string ClientAlias, HttpPostedFileBase ClientBanner, int RespTime, int RestTime, bool IsClientActive, string ExtClientBanner, int ClientId)
         {
             try
             {
-                var _client = _db.SingleOrDefault<DolClient>("WHERE Id=@0", client.ClientId);
-                _client.Clientname = client.ClientName;
-                _client.Clientalias = client.ClientAlias;
-                _client.Isclientactive = client.IsClientActive;
-                _client.Clientbanner = client.ClientBanner;
-                _client.Resptime = client.RespTime;
-                _client.Resttime = client.RestTime;
-                _db.Update(_client);
+                var client = _db.SingleOrDefault<DolClient>("WHERE ClientId=@0", ClientId);
+                client.Clientname = ClientName;
+                client.Clientalias = ClientAlias;
+                client.Isclientactive = IsClientActive;
+                client.Clientbanner =DoFileUpload(ClientBanner, ExtClientBanner);
+                client.Resptime = RespTime;
+                client.Resttime = RestTime;
+                _db.Update(client);
                 return true;
             }
             catch (Exception)

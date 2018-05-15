@@ -70,6 +70,34 @@ namespace BLL.ApplicationLogic
         }
 
 
+        public RoleResp GetRoleDetails(int RoleId)
+        {
+            string sql = "select * from User_Role where RoleId=@0";
+            var _actual = _db.FirstOrDefault<RoleResp>(sql, RoleId);
+            if (_actual != null)
+            {
+                return new RoleResp
+                {
+                    RespCode = "00",
+                    RespMessage = "Success",
+                    RoleId = _actual.RoleId,
+                    Title = _actual.Title,
+                    _Desc = _actual._Desc,
+                    IsRoleActive = _actual.IsRoleActive
+                };
+            }
+            else
+            {
+                return new RoleResp
+                {
+                    RespCode = "04",
+                    RespMessage = "Failed",
+                };
+            }
+          
+        }
+
+
         public List<RoleMenuObj> GetAllRoleMenu()
         {
             string sql = "select A.*, B.*, C.* from User_Role A inner join Role_Menu B on A.RoleId=B.RoleId inner join Dol_MenuItem C on B.ItemId=C.ItemId";

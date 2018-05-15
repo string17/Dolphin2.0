@@ -12,6 +12,9 @@ namespace DAL.CustomObjects
         public string Title { get; set; }
         public string _Desc { get; set; }
         public bool IsRoleActive { get; set; }
+        public string UserName { get; set; }
+        public string Computername { get; set; }
+        public string SystemIp { get; set; }
     }
 
 
@@ -20,6 +23,13 @@ namespace DAL.CustomObjects
     {
         public string RespCode { get; set; }
         public string RespMessage { get; set; }
+        public int RoleId { get; set; }
+        public string Title { get; set; }
+        public string _Desc { get; set; }
+        public bool IsRoleActive { get; set; }
+        public string UserName { get; set; }
+        public string Computername { get; set; }
+        public string SystemIp { get; set; }
     }
 
     public class RoleMenuObj
@@ -41,5 +51,8 @@ namespace DAL.CustomObjects
         public string ItemIcon { get; set; }
         public string RespCode { get; set; }
         public string RespMessage { get; set; }
+        public string UserName { get; set; }
+        public string Computername { get; set; }
+        public string SystemIp { get; set; }
     }
 }

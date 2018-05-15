@@ -11,7 +11,7 @@ namespace BLL.ApplicationLogic
         private readonly DolphinDb _db = DolphinDb.GetInstance();
 
         
-        public bool InsertAudit(string UserName,string UserActivity,string Comment, DateTime DateLog,string SystemName,string SystemIp)
+        public bool InsertAudit(string UserName,string UserActivity,string Comment, DateTime EventDate,string SystemName,string SystemIp)
         {
             try
             {
@@ -19,7 +19,7 @@ namespace BLL.ApplicationLogic
                 audit.Username = UserName;
                 audit.Useractivity = UserActivity;
                 audit.Comment = Comment;
-                audit.Datelog = DateLog;
+                audit.Eventdate = EventDate;
                 audit.Systemname = SystemName;
                 audit.Systemip = SystemIp;
                 _db.Insert<AuditTrail>(audit);

@@ -44,11 +44,11 @@ namespace BLL.ApplicationLogic
             return actual;
         }
 
-        public bool UpdatePassword(string Password, int? Id)
+        public bool UpdatePassword(string Username, string Password)
         {
             try
             {
-                var _user = _db.SingleOrDefault<DolUser>("where UserId =@0", Id);
+                var _user = _db.SingleOrDefault<DolUser>("where UserName =@0", Username);
                 _user.Password = Password;
                 _db.Update(_user);
                 return true;
@@ -172,9 +172,10 @@ namespace BLL.ApplicationLogic
                 return null;
             }
         }
+
         public bool DoesUsernameExists(string Username)
         {
-            var rslt = _db.SingleOrDefault<DolUser>("where UserName=@0", Username); //.Where(a => a.Username == Username);
+            var rslt = _db.SingleOrDefault<DolUser>("where UserName=@0", Username); 
             if (rslt == null)
             {
                 return false;
@@ -336,18 +337,18 @@ namespace BLL.ApplicationLogic
         }
 
 
-        public UserResponse PasswordNotification(string Email)
+        public UserResponse PasswordNotification(UserObj param)
         {
-            bool email = DoesEmailExists(Email);
+            bool email = DoesEmailExists(param.Email);
             if (email)
             {
                 EmailObj emailModel = new EmailObj();
-                string _domainUsername = WebConfigurationManager.AppSettings["UserName"];
-                string _domainPWD = WebConfigurationManager.AppSettings["PWD"];
-                string PasswordUrl = WebConfigurationManager.AppSettings["BaseURL"];
-                var body = "Kindly click on this link  to reset your password. </br>" + PasswordUrl + "Dolphin/Resetpassword?Email=" + Email;
+                string AuthUsername = WebConfigurationManager.AppSettings["AuthUsername"];
+                string AuthPWD = WebConfigurationManager.AppSettings["AuthPWD"];
+                string PasswordUrl = WebConfigurationManager.AppSettings["PasswordUrl"];
+                var body = "Kindly click on this link  to reset your password. </br>" + PasswordUrl + "?Email=" + param.Email;
                 var message = new MailMessage();
-                message.To.Add(new MailAddress(Email));  // replace with valid value 
+                message.To.Add(new MailAddress(param.Email));  // replace with valid value 
                 message.From = new MailAddress(WebConfigurationManager.AppSettings["SupportAddress"]);  // replace with valid value
                 message.Subject = "Password Update";
                 message.Body = string.Format(body, emailModel.FromEmail, emailModel.Message);
@@ -359,7 +360,7 @@ namespace BLL.ApplicationLogic
                     {
                         smtp.Host = WebConfigurationManager.AppSettings["EmailHost"];
                         smtp.EnableSsl = true;
-                        NetworkCredential NetworkCred = new NetworkCredential(_domainUsername, _domainPWD);
+                        NetworkCredential NetworkCred = new NetworkCredential(AuthUsername, AuthPWD);
                         smtp.UseDefaultCredentials = true;
                         smtp.Credentials = NetworkCred;
                         smtp.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["EmailPort"]);
@@ -392,6 +393,24 @@ namespace BLL.ApplicationLogic
             }
             
         }
+
+
+
+        //public bool UpdatePassword(string Password, int? Id)
+        //{
+        //    try
+        //    {
+        //        var users = _db.SingleOrDefault<PureUser>("where UserId =@0", Id);
+        //        users.Userpwd = Password;
+        //        _db.Update(users);
+        //        return true;
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        return false;
+        //    }
+        //}
 
 
         private string DoFileUpload(HttpPostedFileBase pic, string filename = "")

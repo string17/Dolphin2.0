@@ -15,13 +15,19 @@ namespace DAL.CustomObjects
             ResetPassword,
             ForgotPassword,
             SetupClient,
-            CreateRole,
-            CreateUser,
+            SetupUserRole,
+            SetupUserAccount,
             ModifyClientDetails,
             ModifyUserDetails,
             ModifyPersonalProfile,
             LockAccount,
-            Logout
+            CreateBrand,
+            ModifyBrandDetails,
+            ModifyUserRole,
+            ModifyBrandDeatails,
+            AssignRoleMenu,
+            ModifyRoleMenu,
+            LogoutAccount
 
         }
     }

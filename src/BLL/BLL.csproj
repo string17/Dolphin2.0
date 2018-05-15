@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="ApplicationLogic\AuditManagement.cs" />
     <Compile Include="ApplicationLogic\BaseManagement.cs" />
+    <Compile Include="ApplicationLogic\BrandManagement.cs" />
     <Compile Include="ApplicationLogic\ClientManagement.cs" />
     <Compile Include="ApplicationLogic\EncryptionManager.cs" />
     <Compile Include="ApplicationLogic\MenuManagement.cs" />

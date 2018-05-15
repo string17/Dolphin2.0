@@ -39,7 +39,7 @@ namespace Dolphin2._0.Controllers
         //    audit.Username = performed_by;
         //    audit.Useractivity = action_type.ToString();
         //    audit.Comment = action;
-        //    audit.Datelog = DateTime.Now;
+        //    audit.EventDate = DateTime.Now;
         //    audit.Systemname = System.Environment.UserName;
         //    audit.Systemip = System.Web.HttpContext.Current.Request.Params["REMOTE_ADDR"] ?? System.Web.HttpContext.Current.Request.UserHostAddress;
         //    service.insertAudit(audit);

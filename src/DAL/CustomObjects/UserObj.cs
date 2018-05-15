@@ -7,14 +7,14 @@ namespace DAL.CustomObjects
 {
     public class UserObj
     {
-
         public string Username { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         public string UserActivity { get; set; }
         public string Comment { get; set; }
-        public DateTime DateLog { get; set; }
-        public string SystemName { get; set; }
+        public DateTime EventDate { get; set; }
+        public string Computername { get; set; }
         public string SystemIp { get; set; }
     }
 
@@ -43,6 +43,8 @@ namespace DAL.CustomObjects
         public DateTime? CreatedOn { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime ModifiedOn { get; set; }
+        public string Computername { get; set; }
+        public string SystemIp { get; set; }
     }
 
 
@@ -71,10 +73,13 @@ namespace DAL.CustomObjects
         public DateTime? CreatedOn { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime ModifiedOn { get; set; }
+        public string Computername { get; set; }
+        public string SystemIp { get; set; }
     }
     public class UserResponse
     {
         public string RespCode { get; set; }
         public string RespMessage { get; set; }
+
     }
 }

@@ -150,6 +150,232 @@ namespace DolphinContext.Data.Models
 			}		
 		}	
 	}		
+		[TableName("dbo.Dol_Brand")]
+		[PrimaryKey("BrandId")]
+		[ExplicitColumns]
+		public partial class DolBrand : DolphinDb.Record<DolBrand>  
+		{
+			[Column("BrandId")] public int Brandid 
+			{ 
+				get { return _Brandid; }
+				set { _Brandid = value; Track("BrandId"); }
+			}
+			int _Brandid;
+			[Column("BrandName")] public string Brandname 
+			{ 
+				get { return _Brandname; }
+				set { _Brandname = value; Track("BrandName"); }
+			}
+			string _Brandname;
+			[Column("BrandDesc")] public string Branddesc 
+			{ 
+				get { return _Branddesc; }
+				set { _Branddesc = value; Track("BrandDesc"); }
+			}
+			string _Branddesc;
+			[Column("IsBrandActive")] public bool? Isbrandactive 
+			{ 
+				get { return _Isbrandactive; }
+				set { _Isbrandactive = value; Track("IsBrandActive"); }
+			}
+			bool? _Isbrandactive;
+			[Column("CreatedBy")] public string Createdby 
+			{ 
+				get { return _Createdby; }
+				set { _Createdby = value; Track("CreatedBy"); }
+			}
+			string _Createdby;
+			[Column("CreatedOn")] public DateTime? Createdon 
+			{ 
+				get { return _Createdon; }
+				set { _Createdon = value; Track("CreatedOn"); }
+			}
+			DateTime? _Createdon;
+		
+			public static IEnumerable<DolBrand> Query(Database db, string[] columns = null, int[] Brandid = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("dbo.Dol_Brand (NOLOCK)");
+
+				if (Brandid != null)
+					sql.Where("BrandId IN (@0)", Brandid);
+
+                return db.Query<DolBrand>(sql);
+            }
+		}
+		
+		[TableName("dbo.Dol_Region")]
+		[PrimaryKey("RegionId")]
+		[ExplicitColumns]
+		public partial class DolRegion : DolphinDb.Record<DolRegion>  
+		{
+			[Column("RegionId")] public int Regionid 
+			{ 
+				get { return _Regionid; }
+				set { _Regionid = value; Track("RegionId"); }
+			}
+			int _Regionid;
+			[Column("RegionTitle")] public string Regiontitle 
+			{ 
+				get { return _Regiontitle; }
+				set { _Regiontitle = value; Track("RegionTitle"); }
+			}
+			string _Regiontitle;
+			[Column("RegionDesc")] public string Regiondesc 
+			{ 
+				get { return _Regiondesc; }
+				set { _Regiondesc = value; Track("RegionDesc"); }
+			}
+			string _Regiondesc;
+			[Column("IsRegionActive")] public bool? Isregionactive 
+			{ 
+				get { return _Isregionactive; }
+				set { _Isregionactive = value; Track("IsRegionActive"); }
+			}
+			bool? _Isregionactive;
+		
+			public static IEnumerable<DolRegion> Query(Database db, string[] columns = null, int[] Regionid = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("dbo.Dol_Region (NOLOCK)");
+
+				if (Regionid != null)
+					sql.Where("RegionId IN (@0)", Regionid);
+
+                return db.Query<DolRegion>(sql);
+            }
+		}
+		
+		[TableName("dbo.Dol_State")]
+		[PrimaryKey("StateId")]
+		[ExplicitColumns]
+		public partial class DolState : DolphinDb.Record<DolState>  
+		{
+			[Column("StateId")] public int Stateid 
+			{ 
+				get { return _Stateid; }
+				set { _Stateid = value; Track("StateId"); }
+			}
+			int _Stateid;
+			[Column("StateTitle")] public string Statetitle 
+			{ 
+				get { return _Statetitle; }
+				set { _Statetitle = value; Track("StateTitle"); }
+			}
+			string _Statetitle;
+			[Column("StateDesc")] public string Statedesc 
+			{ 
+				get { return _Statedesc; }
+				set { _Statedesc = value; Track("StateDesc"); }
+			}
+			string _Statedesc;
+			[Column("IsStateActive")] public bool? Isstateactive 
+			{ 
+				get { return _Isstateactive; }
+				set { _Isstateactive = value; Track("IsStateActive"); }
+			}
+			bool? _Isstateactive;
+		
+			public static IEnumerable<DolState> Query(Database db, string[] columns = null, int[] Stateid = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("dbo.Dol_State (NOLOCK)");
+
+				if (Stateid != null)
+					sql.Where("StateId IN (@0)", Stateid);
+
+                return db.Query<DolState>(sql);
+            }
+		}
+		
+		[TableName("dbo.Dol_Client")]
+		[PrimaryKey("ClientId")]
+		[ExplicitColumns]
+		public partial class DolClient : DolphinDb.Record<DolClient>  
+		{
+			[Column("ClientId")] public int Clientid 
+			{ 
+				get { return _Clientid; }
+				set { _Clientid = value; Track("ClientId"); }
+			}
+			int _Clientid;
+			[Column("ClientName")] public string Clientname 
+			{ 
+				get { return _Clientname; }
+				set { _Clientname = value; Track("ClientName"); }
+			}
+			string _Clientname;
+			[Column("ClientAlias")] public string Clientalias 
+			{ 
+				get { return _Clientalias; }
+				set { _Clientalias = value; Track("ClientAlias"); }
+			}
+			string _Clientalias;
+			[Column("ClientBanner")] public string Clientbanner 
+			{ 
+				get { return _Clientbanner; }
+				set { _Clientbanner = value; Track("ClientBanner"); }
+			}
+			string _Clientbanner;
+			[Column("RespTime")] public int? Resptime 
+			{ 
+				get { return _Resptime; }
+				set { _Resptime = value; Track("RespTime"); }
+			}
+			int? _Resptime;
+			[Column("RestTime")] public int? Resttime 
+			{ 
+				get { return _Resttime; }
+				set { _Resttime = value; Track("RestTime"); }
+			}
+			int? _Resttime;
+			[Column("IsClientActive")] public bool? Isclientactive 
+			{ 
+				get { return _Isclientactive; }
+				set { _Isclientactive = value; Track("IsClientActive"); }
+			}
+			bool? _Isclientactive;
+			[Column("CreatedOn")] public DateTime? Createdon 
+			{ 
+				get { return _Createdon; }
+				set { _Createdon = value; Track("CreatedOn"); }
+			}
+			DateTime? _Createdon;
+			[Column("CreatedBy")] public string Createdby 
+			{ 
+				get { return _Createdby; }
+				set { _Createdby = value; Track("CreatedBy"); }
+			}
+			string _Createdby;
+		
+			public static IEnumerable<DolClient> Query(Database db, string[] columns = null, int[] Clientid = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("dbo.Dol_Client (NOLOCK)");
+
+				if (Clientid != null)
+					sql.Where("ClientId IN (@0)", Clientid);
+
+                return db.Query<DolClient>(sql);
+            }
+		}
+		
 		[TableName("dbo.User_Tracking")]
 		[PrimaryKey("Tid")]
 		[ExplicitColumns]
@@ -442,82 +668,6 @@ namespace DolphinContext.Data.Models
             }
 		}
 		
-		[TableName("dbo.Dol_Client")]
-		[PrimaryKey("ClientId")]
-		[ExplicitColumns]
-		public partial class DolClient : DolphinDb.Record<DolClient>  
-		{
-			[Column("ClientId")] public int Clientid 
-			{ 
-				get { return _Clientid; }
-				set { _Clientid = value; Track("ClientId"); }
-			}
-			int _Clientid;
-			[Column("ClientName")] public string Clientname 
-			{ 
-				get { return _Clientname; }
-				set { _Clientname = value; Track("ClientName"); }
-			}
-			string _Clientname;
-			[Column("ClientAlias")] public string Clientalias 
-			{ 
-				get { return _Clientalias; }
-				set { _Clientalias = value; Track("ClientAlias"); }
-			}
-			string _Clientalias;
-			[Column("ClientBanner")] public string Clientbanner 
-			{ 
-				get { return _Clientbanner; }
-				set { _Clientbanner = value; Track("ClientBanner"); }
-			}
-			string _Clientbanner;
-			[Column("RespTime")] public string Resptime 
-			{ 
-				get { return _Resptime; }
-				set { _Resptime = value; Track("RespTime"); }
-			}
-			string _Resptime;
-			[Column("RestTime")] public string Resttime 
-			{ 
-				get { return _Resttime; }
-				set { _Resttime = value; Track("RestTime"); }
-			}
-			string _Resttime;
-			[Column("IsClientActive")] public bool? Isclientactive 
-			{ 
-				get { return _Isclientactive; }
-				set { _Isclientactive = value; Track("IsClientActive"); }
-			}
-			bool? _Isclientactive;
-			[Column("CreatedOn")] public DateTime? Createdon 
-			{ 
-				get { return _Createdon; }
-				set { _Createdon = value; Track("CreatedOn"); }
-			}
-			DateTime? _Createdon;
-			[Column("CreatedBy")] public string Createdby 
-			{ 
-				get { return _Createdby; }
-				set { _Createdby = value; Track("CreatedBy"); }
-			}
-			string _Createdby;
-		
-			public static IEnumerable<DolClient> Query(Database db, string[] columns = null, int[] Clientid = null)
-            {
-                var sql = new Sql();
-
-                if (columns != null)
-                    sql.Select(columns);
-
-                sql.From("dbo.Dol_Client (NOLOCK)");
-
-				if (Clientid != null)
-					sql.Where("ClientId IN (@0)", Clientid);
-
-                return db.Query<DolClient>(sql);
-            }
-		}
-		
 		[TableName("dbo.Role_Menu")]
 		[PrimaryKey("Id")]
 		[ExplicitColumns]
@@ -659,12 +809,12 @@ namespace DolphinContext.Data.Models
 				set { _Comment = value; Track("Comment"); }
 			}
 			string _Comment;
-			[Column("DateLog")] public DateTime? Datelog 
+			[Column("EventDate")] public DateTime? Eventdate 
 			{ 
-				get { return _Datelog; }
-				set { _Datelog = value; Track("DateLog"); }
+				get { return _Eventdate; }
+				set { _Eventdate = value; Track("EventDate"); }
 			}
-			DateTime? _Datelog;
+			DateTime? _Eventdate;
 			[Column("SystemName")] public string Systemname 
 			{ 
 				get { return _Systemname; }
