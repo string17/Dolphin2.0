@@ -188,6 +188,7 @@ namespace Dolphin2._0.Controllers
         }
 
 
+
         //Return all active menu
         [System.Web.Http.HttpPost]
         [System.Web.Http.Route("Submenu")]
@@ -371,8 +372,7 @@ namespace Dolphin2._0.Controllers
         [System.Web.Http.Route("insertclient")]
         public bool InsertClient(ClientObj param)
         {
-            string banner = _client.DoFileUpload(param.ClientBanner);
-            bool _clients = _client.InsertClient(param.ClientName,param.ClientAlias,banner,param.RespTime,param.RestTime,param.IsClientActive,param.CreatedBy);
+            bool _clients = _client.InsertClient(param.ClientName,param.ClientAlias,param.ClientBanner,param.RespTime,param.RestTime,param.IsClientActive,param.CreatedBy);
             if (_clients)
             {
                 Log.InfoFormat(param.Computername, param.SystemIp, param.UserName, Constants.ActionType.SetupClient.ToString());
@@ -391,20 +391,31 @@ namespace Dolphin2._0.Controllers
         //modify client
         [System.Web.Http.HttpPost]
         [System.Web.Http.Route("modifyclient")]
-        public bool ModifyClient(ClientObj param)
+        public ClientResp ModifyClient(ClientObj param)
         {
-            bool success = _client.UpdateClient(param.ClientName, param.ClientAlias, param.ClientBanner, param.RespTime, param.RestTime,param.IsClientActive,param.ExtClientBanner, param.ClientId);
+            bool success = _client.UpdateClient(param.ClientName, param.ClientAlias, param.ClientBanner, param.RespTime, param.RestTime, param.IsClientActive, param.ClientId);
             if (success)
             {
                 Log.InfoFormat(param.Computername, param.SystemIp, param.UserName, Constants.ActionType.ModifyClientDetails.ToString());
                 _audit.InsertAudit(param.UserName, Constants.ActionType.ModifyClientDetails.ToString(), "Client detail changed", DateTime.Now, param.Computername, param.SystemIp);
-                return true;
+                return new ClientResp
+                {
+                    RespCode = "00",
+                    RespMessage = "Success"
+
+                };
             }
             else
             {
                 Log.InfoFormat(param.Computername, param.SystemIp, param.UserName, Constants.ActionType.ModifyClientDetails.ToString());
-                return false;
+                return new ClientResp
+                {
+                    RespCode = "04",
+                    RespMessage = "Failure"
+
+                };
             }
+
         }
 
 

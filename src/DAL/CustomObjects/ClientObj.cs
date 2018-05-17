@@ -31,7 +31,7 @@ namespace DAL.CustomObjects
         public int RespTime { get; set; }
         public int RestTime { get; set; }
         public string Rest1Time { get; set; }
-        public HttpPostedFileBase ClientBanner { get; set; }
+        public string ClientBanner { get; set; }
         public string ExtClientBanner { get; set; }
         public string ClientAlias { get; set; }
         public bool IsClientActive { get; set; }

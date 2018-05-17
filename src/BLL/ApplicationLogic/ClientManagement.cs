@@ -108,7 +108,7 @@ namespace BLL.ApplicationLogic
 
         }
 
-        public bool UpdateClient(string ClientName, string ClientAlias, HttpPostedFileBase ClientBanner, int RespTime, int RestTime, bool IsClientActive, string ExtClientBanner, int ClientId)
+        public bool UpdateClient(string ClientName, string ClientAlias, string ClientBanner, int RespTime, int RestTime, bool IsClientActive, int ClientId)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace BLL.ApplicationLogic
                 client.Clientname = ClientName;
                 client.Clientalias = ClientAlias;
                 client.Isclientactive = IsClientActive;
-                client.Clientbanner =DoFileUpload(ClientBanner, ExtClientBanner);
+                client.Clientbanner = ClientBanner;
                 client.Resptime = RespTime;
                 client.Resttime = RestTime;
                 _db.Update(client);
