@@ -22,8 +22,8 @@ namespace BLL.ApplicationLogic
             try
             {
                 var _role = _db.SingleOrDefault<UserRole>("where RoleId =@0", Id);
-                _role.Title = Title;
-                _role.Desc = Desc;
+                _role.Rolename = Title;
+                _role.Roledesc = Desc;
                 _role.Isroleactive = Status;
                 _db.Update(_role);
                 return true;
@@ -47,6 +47,15 @@ namespace BLL.ApplicationLogic
               //  return false;
             //}
         }
+
+
+        public UserRole RoleDetailsByName(string RoleName)
+        {
+            string sql = "select * from User_Role where RoleDesc =@0";
+            var role = _db.FirstOrDefault<UserRole>(sql, RoleName);
+            return role;
+        }
+
 
         public int DeleteRole(int RoleId)
         {
@@ -81,8 +90,8 @@ namespace BLL.ApplicationLogic
                     RespCode = "00",
                     RespMessage = "Success",
                     RoleId = _actual.RoleId,
-                    Title = _actual.Title,
-                    _Desc = _actual._Desc,
+                    RoleName = _actual.RoleName,
+                    RoleDesc = _actual.RoleDesc,
                     IsRoleActive = _actual.IsRoleActive
                 };
             }

@@ -16,7 +16,8 @@ namespace DAL.CustomObjects
     {
         public int StateId { get; set; }
         public string StateTitle { get; set; }
-        public string StateDesc { get; set; }
+        public int RegionId { get; set; }
+        public string RegionName { get; set; }
         public bool IsStateActive { get; set; }
         public string Computername { get; set; }
         public string SystemIp { get; set; }

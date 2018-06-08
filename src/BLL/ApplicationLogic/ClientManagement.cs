@@ -19,20 +19,25 @@ namespace BLL.ApplicationLogic
         //    return actual;
         //}
 
+
+        //Get list of clients
         public List<DolClient> GetClientList()
         {
             var actual = _db.Fetch<DolClient>().ToList();
             return actual;
         }
 
-        public List<DolClient> ExcludeClient(string ClientName)
+
+        //Exclude client
+        public List<ClientObj> ExcludeClient(string ClientName)
         {
             string sql = "Select * from Dol_Client where ClientName <> @0 ";
-            var actual = _db.Fetch<DolClient>(sql, ClientName).ToList();
-            return actual;
+            var clients = _db.Fetch<ClientObj>(sql, ClientName).ToList();
+            return clients;
         }
 
-        public ClientResp GetClientDetails(int? ClientId)
+
+           public ClientResp GetClientDetails(int? ClientId)
         {
             string sql = "Select * from Dol_Client where ClientId =@0";
             var actual = _db.FirstOrDefault<DolClient>(sql, ClientId);
@@ -48,6 +53,8 @@ namespace BLL.ApplicationLogic
                     ClientName = actual.Clientname,
                     RestTime = actual.Resttime,
                     RespTime = actual.Resptime,
+                    RespTimeUp=actual.Resptimeup,
+                    RestTimeUp=actual.Resttimeup,
                     IsClientActive = actual.Isclientactive,
                     CreatedBy = actual.Createdby,
                     CreatedOn = actual.Createdon
@@ -86,7 +93,7 @@ namespace BLL.ApplicationLogic
         }
 
 
-        public bool InsertClient(string ClientName, string ClientAlias, string ClientBanner, int RespTime, int RestTime, bool IsClientActive,string CreatedBy)
+        public bool InsertClient(string ClientName, string ClientAlias, string ClientBanner, int RespTime, int RestTime, int RespTimeUp, int RestTimeUp, bool IsClientActive,string CreatedBy)
         {
             try
             {
@@ -95,7 +102,10 @@ namespace BLL.ApplicationLogic
                 client.Clientalias = ClientAlias;
                 client.Resptime = RespTime;
                 client.Resttime = RestTime;
+                client.Resptimeup = RespTimeUp;
+                client.Resttimeup = RestTimeUp;
                 client.Isclientactive = IsClientActive;
+                client.Clientbanner = ClientBanner;
                 client.Createdon = DateTime.Now;
                 client.Createdby = CreatedBy;
                 _db.Insert(client);
@@ -108,7 +118,7 @@ namespace BLL.ApplicationLogic
 
         }
 
-        public bool UpdateClient(string ClientName, string ClientAlias, string ClientBanner, int RespTime, int RestTime, bool IsClientActive, int ClientId)
+        public bool UpdateClient(string ClientName, string ClientAlias, string ClientBanner, int RespTime, int RestTime, int RespTimeUp, int RestTimeUp, bool IsClientActive, int ClientId)
         {
             try
             {
@@ -119,6 +129,8 @@ namespace BLL.ApplicationLogic
                 client.Clientbanner = ClientBanner;
                 client.Resptime = RespTime;
                 client.Resttime = RestTime;
+                client.Resptimeup = RespTimeUp;
+                client.Resttimeup = RestTimeUp;
                 _db.Update(client);
                 return true;
             }

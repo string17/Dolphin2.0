@@ -9,8 +9,8 @@ namespace DAL.CustomObjects
     public class RoleObj
     {
         public int RoleId { get; set; }
-        public string Title { get; set; }
-        public string _Desc { get; set; }
+        public string RoleName { get; set; }
+        public string RoleDesc { get; set; }
         public bool IsRoleActive { get; set; }
         public string UserName { get; set; }
         public string Computername { get; set; }
@@ -24,8 +24,8 @@ namespace DAL.CustomObjects
         public string RespCode { get; set; }
         public string RespMessage { get; set; }
         public int RoleId { get; set; }
-        public string Title { get; set; }
-        public string _Desc { get; set; }
+        public string RoleName { get; set; }
+        public string RoleDesc { get; set; }
         public bool IsRoleActive { get; set; }
         public string UserName { get; set; }
         public string Computername { get; set; }

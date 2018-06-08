@@ -85,6 +85,7 @@
     <Compile Include="ApplicationLogic\EncryptionManager.cs" />
     <Compile Include="ApplicationLogic\MenuManagement.cs" />
     <Compile Include="ApplicationLogic\RoleManagement.cs" />
+    <Compile Include="ApplicationLogic\TerminalManagement.cs" />
     <Compile Include="ApplicationLogic\UserManagement.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

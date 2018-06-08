@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="CustomObjects\AppResp.cs" />
     <Compile Include="CustomObjects\AuditObj.cs" />
     <Compile Include="CustomObjects\BrandObj.cs" />
     <Compile Include="CustomObjects\ClientObj.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="CustomObjects\RegionObj.cs" />
     <Compile Include="CustomObjects\RoleObj.cs" />
     <Compile Include="CustomObjects\StateObj.cs" />
+    <Compile Include="CustomObjects\TerminalObj.cs" />
     <Compile Include="CustomObjects\UserObj.cs" />
     <Compile Include="DataObjects\Database.cs">
       <AutoGen>True</AutoGen>

@@ -19,6 +19,7 @@ namespace BLL.ApplicationLogic
     {
         private readonly DolphinDb _db = DolphinDb.GetInstance();
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+      
 
         public UserInfo GetUserInfo(UserObj userLogin)
         {
@@ -96,7 +97,7 @@ namespace BLL.ApplicationLogic
         //    return userView;
         //}
 
-        public UserInfo GetUserById(int UserId)
+        public UserInfo GetUserDetails(int UserId)
         {
             var _actual = _db.SingleOrDefault<DolUser>("where UserId=@0", UserId);
             var _company = _db.SingleOrDefault<DolClient>("where ClientId=@0", _actual.Clientid);
@@ -108,12 +109,19 @@ namespace BLL.ApplicationLogic
                 MiddleName = _actual.Middlename,
                 LastName = _actual.Lastname,
                 UserName = _actual.Username,
+                Email=_actual.Email,
                 Password = _actual.Password,
                 RoleId = _actual.Roleid,
                 PhoneNo = _actual.Phoneno,
-                Alias = _company.Clientalias,
-                RoleName=_role.Title,
-                UserImg = _actual.Userimg
+                ClientAlias = _company.Clientalias,
+                RoleName=_role.Rolename,
+                UserImg = _actual.Userimg,
+                Sex=_actual.Sex,
+                IsUserActive=_actual.Isuseractive,
+                CreatedBy=_actual.Createdby,
+                CreatedOn=_actual.Createdon,
+                RespCode="00",
+                RespMessage="Success"
 
             };
 
@@ -141,15 +149,16 @@ namespace BLL.ApplicationLogic
         //    return engineerView;
         //}
 
-        public List<DolUser> GetEngineer()
+        public List<UserInfo> GetAllEngineers()
         {
-            string sql = "select A.*,B.RoleName,B.RoleStatus from DolUser A INNER JOIN DolRole B ON A.RoleId=B.RoleId where A.UserStatus='true' AND B.RoleName='ENGINEER' ";
-            var actual = _db.Fetch<DolUser>(sql);
+            string sql = "select A.*,B.RoleName,B.IsRoleActive from Dol_User A INNER JOIN User_Role B ON A.RoleId=B.RoleId where A.IsUserActive='true' AND B.RoleName='ENGINEER' ";
+            var actual = _db.Fetch<UserInfo>(sql);
             return actual;
         }
-        public List<DolUser> getAllUsers()
+        public List<UserInfo> AllUsers()
         {
-            var actual = _db.Fetch<DolUser>();
+            string sql = "select A.*, B.*,C.* from Dol_User A inner join Dol_Client B on A.ClientId=B.ClientId inner join User_Role C on A.RoleId=C.RoleId";
+            var actual = _db.Fetch<UserInfo>(sql).ToList();
             return actual;
         }
 
@@ -243,25 +252,28 @@ namespace BLL.ApplicationLogic
             }
         }
 
-        public bool InsertUser(UserDetails userDetails)
+        public bool InsertUser(UserInfo userDetails)
         {
             try
             {
+                //return true;
                 var user = new DolUser();
                 user.Firstname = userDetails.FirstName;
                 user.Middlename = userDetails.MiddleName;
+                user.Lastname = userDetails.LastName;
                 user.Username = userDetails.UserName;
                 user.Email = userDetails.Email;
                 user.Password = userDetails.Password;
                 user.Phoneno = userDetails.PhoneNo;
+                user.Sex = userDetails.Sex;
                 user.Roleid = userDetails.RoleId;
                 user.Clientid = userDetails.ClientId;
-                user.Userimg = DoFileUpload(userDetails.UserImg);
+                user.Userimg = userDetails.UserImg;
                 user.Isuseractive = userDetails.IsUserActive;
                 user.Isdelete = userDetails.IsDelete;
                 user.Createdby = userDetails.CreatedBy;
                 user.Createdon = userDetails.CreatedOn;
-                _db.Insert(userDetails);
+                _db.Insert(user);
                 return true;
             }
             catch (Exception ex)
@@ -287,23 +299,24 @@ namespace BLL.ApplicationLogic
 
 
 
-        public bool ModifyUserDetails(UserDetails userDetails)
+        public bool ModifyUserDetails(UserInfo param)
         {
             try
             {
-                var _users = _db.SingleOrDefault<DolUser>("WHERE UserId=@0", userDetails.UserId);
-                _users.Firstname = userDetails.FirstName;
-                _users.Middlename = userDetails.MiddleName;
-                _users.Lastname = userDetails.LastName;
-                _users.Username = userDetails.UserName;
-                _users.Password = new EncryptionManager().EncryptValue(userDetails.Password);
-                _users.Userimg = DoFileUpload(userDetails.UserImg);
-                _users.Phoneno = userDetails.PhoneNo;
-                _users.Roleid = userDetails.RoleId;
-                _users.Isuseractive = userDetails.Status;
-                _users.Modifiedby = userDetails.ModifiedBy;
-                _users.Modifiedon = userDetails.ModifiedOn;
-                _db.Update(_users);
+                var users = _db.SingleOrDefault<DolUser>("WHERE UserId=@0", param.UserId);
+                users.Firstname = param.FirstName;
+                users.Middlename = param.MiddleName;
+                users.Lastname = param.LastName;
+                users.Username = param.UserName;
+                users.Password = param.Password; //new EncryptionManager().EncryptValue(param.Password);
+                users.Userimg = param.UserImg;
+                users.Sex = param.Sex;
+                users.Phoneno = param.PhoneNo;
+                users.Roleid = param.RoleId;
+                users.Isuseractive = param.IsUserActive;
+                users.Modifiedby = param.ModifiedBy;
+               // users.Modifiedon = param.ModifiedOn;
+                _db.Update(users);
                 return true;
             }
             catch (Exception ex)
@@ -337,7 +350,7 @@ namespace BLL.ApplicationLogic
         }
 
 
-        public UserResponse PasswordNotification(UserObj param)
+        public AppResp PasswordNotification(UserObj param)
         {
             bool email = DoesEmailExists(param.Email);
             if (email)
@@ -365,7 +378,7 @@ namespace BLL.ApplicationLogic
                         smtp.Credentials = NetworkCred;
                         smtp.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["EmailPort"]);
                         smtp.Send(message);
-                        return new UserResponse
+                        return new AppResp
                         {
                             RespCode = "00",
                             RespMessage ="kindly check your email"
@@ -374,7 +387,7 @@ namespace BLL.ApplicationLogic
                     catch (Exception ex)
                     {
                         Log.InfoFormat("Email", ex.Message);
-                        return new UserResponse
+                        return new AppResp
                         {
                             RespCode = "01",
                             RespMessage = ex.Message
@@ -384,7 +397,8 @@ namespace BLL.ApplicationLogic
             }
             else
             {
-                return new UserResponse {
+                return new AppResp
+                {
 
                     RespCode="01",
                     RespMessage="Invalid email address"
@@ -394,7 +408,18 @@ namespace BLL.ApplicationLogic
             
         }
 
-
+        public bool GetUserStatus(string RoleName)
+        {
+            switch (RoleName)
+            {
+                case "ACTIVE":
+                    return true;
+                case "INACTIVE":
+                    return false;
+                default:
+                    return false;
+            }
+        }
 
         //public bool UpdatePassword(string Password, int? Id)
         //{

@@ -254,49 +254,133 @@ namespace DolphinContext.Data.Models
             }
 		}
 		
-		[TableName("dbo.Dol_State")]
-		[PrimaryKey("StateId")]
+		[TableName("dbo.Dol_User")]
+		[PrimaryKey("UserId")]
 		[ExplicitColumns]
-		public partial class DolState : DolphinDb.Record<DolState>  
+		public partial class DolUser : DolphinDb.Record<DolUser>  
 		{
-			[Column("StateId")] public int Stateid 
+			[Column("UserId")] public int Userid 
 			{ 
-				get { return _Stateid; }
-				set { _Stateid = value; Track("StateId"); }
+				get { return _Userid; }
+				set { _Userid = value; Track("UserId"); }
 			}
-			int _Stateid;
-			[Column("StateTitle")] public string Statetitle 
+			int _Userid;
+			[Column("FirstName")] public string Firstname 
 			{ 
-				get { return _Statetitle; }
-				set { _Statetitle = value; Track("StateTitle"); }
+				get { return _Firstname; }
+				set { _Firstname = value; Track("FirstName"); }
 			}
-			string _Statetitle;
-			[Column("StateDesc")] public string Statedesc 
+			string _Firstname;
+			[Column("MiddleName")] public string Middlename 
 			{ 
-				get { return _Statedesc; }
-				set { _Statedesc = value; Track("StateDesc"); }
+				get { return _Middlename; }
+				set { _Middlename = value; Track("MiddleName"); }
 			}
-			string _Statedesc;
-			[Column("IsStateActive")] public bool? Isstateactive 
+			string _Middlename;
+			[Column("LastName")] public string Lastname 
 			{ 
-				get { return _Isstateactive; }
-				set { _Isstateactive = value; Track("IsStateActive"); }
+				get { return _Lastname; }
+				set { _Lastname = value; Track("LastName"); }
 			}
-			bool? _Isstateactive;
+			string _Lastname;
+			[Column("UserName")] public string Username 
+			{ 
+				get { return _Username; }
+				set { _Username = value; Track("UserName"); }
+			}
+			string _Username;
+	        [Column] public string Email 
+			{ 
+				get { return _Email; }
+				set { _Email = value; Track("Email"); }
+			}
+			string _Email;
+	        [Column] public string Sex 
+			{ 
+				get { return _Sex; }
+				set { _Sex = value; Track("Sex"); }
+			}
+			string _Sex;
+	        [Column] public string Password 
+			{ 
+				get { return _Password; }
+				set { _Password = value; Track("Password"); }
+			}
+			string _Password;
+			[Column("PhoneNo")] public string Phoneno 
+			{ 
+				get { return _Phoneno; }
+				set { _Phoneno = value; Track("PhoneNo"); }
+			}
+			string _Phoneno;
+			[Column("RoleId")] public int? Roleid 
+			{ 
+				get { return _Roleid; }
+				set { _Roleid = value; Track("RoleId"); }
+			}
+			int? _Roleid;
+			[Column("ClientId")] public int? Clientid 
+			{ 
+				get { return _Clientid; }
+				set { _Clientid = value; Track("ClientId"); }
+			}
+			int? _Clientid;
+			[Column("UserImg")] public string Userimg 
+			{ 
+				get { return _Userimg; }
+				set { _Userimg = value; Track("UserImg"); }
+			}
+			string _Userimg;
+			[Column("IsUserActive")] public bool? Isuseractive 
+			{ 
+				get { return _Isuseractive; }
+				set { _Isuseractive = value; Track("IsUserActive"); }
+			}
+			bool? _Isuseractive;
+			[Column("IsDelete")] public bool? Isdelete 
+			{ 
+				get { return _Isdelete; }
+				set { _Isdelete = value; Track("IsDelete"); }
+			}
+			bool? _Isdelete;
+			[Column("CreatedBy")] public string Createdby 
+			{ 
+				get { return _Createdby; }
+				set { _Createdby = value; Track("CreatedBy"); }
+			}
+			string _Createdby;
+			[Column("CreatedOn")] public DateTime? Createdon 
+			{ 
+				get { return _Createdon; }
+				set { _Createdon = value; Track("CreatedOn"); }
+			}
+			DateTime? _Createdon;
+			[Column("ModifiedBy")] public string Modifiedby 
+			{ 
+				get { return _Modifiedby; }
+				set { _Modifiedby = value; Track("ModifiedBy"); }
+			}
+			string _Modifiedby;
+			[Column("ModifiedOn")] public DateTime? Modifiedon 
+			{ 
+				get { return _Modifiedon; }
+				set { _Modifiedon = value; Track("ModifiedOn"); }
+			}
+			DateTime? _Modifiedon;
 		
-			public static IEnumerable<DolState> Query(Database db, string[] columns = null, int[] Stateid = null)
+			public static IEnumerable<DolUser> Query(Database db, string[] columns = null, int[] Userid = null)
             {
                 var sql = new Sql();
 
                 if (columns != null)
                     sql.Select(columns);
 
-                sql.From("dbo.Dol_State (NOLOCK)");
+                sql.From("dbo.Dol_User (NOLOCK)");
 
-				if (Stateid != null)
-					sql.Where("StateId IN (@0)", Stateid);
+				if (Userid != null)
+					sql.Where("UserId IN (@0)", Userid);
 
-                return db.Query<DolState>(sql);
+                return db.Query<DolUser>(sql);
             }
 		}
 		
@@ -341,6 +425,18 @@ namespace DolphinContext.Data.Models
 				set { _Resttime = value; Track("RestTime"); }
 			}
 			int? _Resttime;
+			[Column("RespTimeUp")] public int? Resptimeup 
+			{ 
+				get { return _Resptimeup; }
+				set { _Resptimeup = value; Track("RespTimeUp"); }
+			}
+			int? _Resptimeup;
+			[Column("RestTimeUp")] public int? Resttimeup 
+			{ 
+				get { return _Resttimeup; }
+				set { _Resttimeup = value; Track("RestTimeUp"); }
+			}
+			int? _Resttimeup;
 			[Column("IsClientActive")] public bool? Isclientactive 
 			{ 
 				get { return _Isclientactive; }
@@ -373,6 +469,170 @@ namespace DolphinContext.Data.Models
 					sql.Where("ClientId IN (@0)", Clientid);
 
                 return db.Query<DolClient>(sql);
+            }
+		}
+		
+		[TableName("dbo.Dol_State")]
+		[PrimaryKey("StateId")]
+		[ExplicitColumns]
+		public partial class DolState : DolphinDb.Record<DolState>  
+		{
+			[Column("StateId")] public int Stateid 
+			{ 
+				get { return _Stateid; }
+				set { _Stateid = value; Track("StateId"); }
+			}
+			int _Stateid;
+			[Column("StateTitle")] public string Statetitle 
+			{ 
+				get { return _Statetitle; }
+				set { _Statetitle = value; Track("StateTitle"); }
+			}
+			string _Statetitle;
+			[Column("RegionId")] public int? Regionid 
+			{ 
+				get { return _Regionid; }
+				set { _Regionid = value; Track("RegionId"); }
+			}
+			int? _Regionid;
+			[Column("IsStateActive")] public bool? Isstateactive 
+			{ 
+				get { return _Isstateactive; }
+				set { _Isstateactive = value; Track("IsStateActive"); }
+			}
+			bool? _Isstateactive;
+		
+			public static IEnumerable<DolState> Query(Database db, string[] columns = null, int[] Stateid = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("dbo.Dol_State (NOLOCK)");
+
+				if (Stateid != null)
+					sql.Where("StateId IN (@0)", Stateid);
+
+                return db.Query<DolState>(sql);
+            }
+		}
+		
+		[TableName("dbo.Dol_Terminal")]
+		[PrimaryKey("TerminalId")]
+		[ExplicitColumns]
+		public partial class DolTerminal : DolphinDb.Record<DolTerminal>  
+		{
+			[Column("TerminalId")] public int Terminalid 
+			{ 
+				get { return _Terminalid; }
+				set { _Terminalid = value; Track("TerminalId"); }
+			}
+			int _Terminalid;
+			[Column("TerminalRef")] public string Terminalref 
+			{ 
+				get { return _Terminalref; }
+				set { _Terminalref = value; Track("TerminalRef"); }
+			}
+			string _Terminalref;
+			[Column("TerminalNo")] public string Terminalno 
+			{ 
+				get { return _Terminalno; }
+				set { _Terminalno = value; Track("TerminalNo"); }
+			}
+			string _Terminalno;
+			[Column("SerialNo")] public string Serialno 
+			{ 
+				get { return _Serialno; }
+				set { _Serialno = value; Track("SerialNo"); }
+			}
+			string _Serialno;
+			[Column("ClientId")] public int? Clientid 
+			{ 
+				get { return _Clientid; }
+				set { _Clientid = value; Track("ClientId"); }
+			}
+			int? _Clientid;
+			[Column("BrandId")] public int? Brandid 
+			{ 
+				get { return _Brandid; }
+				set { _Brandid = value; Track("BrandId"); }
+			}
+			int? _Brandid;
+	        [Column] public string Engineer 
+			{ 
+				get { return _Engineer; }
+				set { _Engineer = value; Track("Engineer"); }
+			}
+			string _Engineer;
+			[Column("IsUnderSupport")] public bool? Isundersupport 
+			{ 
+				get { return _Isundersupport; }
+				set { _Isundersupport = value; Track("IsUnderSupport"); }
+			}
+			bool? _Isundersupport;
+			[Column("IsTerminalActive")] public bool? Isterminalactive 
+			{ 
+				get { return _Isterminalactive; }
+				set { _Isterminalactive = value; Track("IsTerminalActive"); }
+			}
+			bool? _Isterminalactive;
+			[Column("TerminalAlias")] public string Terminalalias 
+			{ 
+				get { return _Terminalalias; }
+				set { _Terminalalias = value; Track("TerminalAlias"); }
+			}
+			string _Terminalalias;
+			[Column("StateId")] public int? Stateid 
+			{ 
+				get { return _Stateid; }
+				set { _Stateid = value; Track("StateId"); }
+			}
+			int? _Stateid;
+	        [Column] public string Location 
+			{ 
+				get { return _Location; }
+				set { _Location = value; Track("Location"); }
+			}
+			string _Location;
+			[Column("CreatedBy")] public string Createdby 
+			{ 
+				get { return _Createdby; }
+				set { _Createdby = value; Track("CreatedBy"); }
+			}
+			string _Createdby;
+			[Column("CreatedOn")] public DateTime? Createdon 
+			{ 
+				get { return _Createdon; }
+				set { _Createdon = value; Track("CreatedOn"); }
+			}
+			DateTime? _Createdon;
+			[Column("ModifiedBy")] public string Modifiedby 
+			{ 
+				get { return _Modifiedby; }
+				set { _Modifiedby = value; Track("ModifiedBy"); }
+			}
+			string _Modifiedby;
+			[Column("ModifiedOn")] public DateTime? Modifiedon 
+			{ 
+				get { return _Modifiedon; }
+				set { _Modifiedon = value; Track("ModifiedOn"); }
+			}
+			DateTime? _Modifiedon;
+		
+			public static IEnumerable<DolTerminal> Query(Database db, string[] columns = null, int[] Terminalid = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("dbo.Dol_Terminal (NOLOCK)");
+
+				if (Terminalid != null)
+					sql.Where("TerminalId IN (@0)", Terminalid);
+
+                return db.Query<DolTerminal>(sql);
             }
 		}
 		
@@ -445,18 +705,18 @@ namespace DolphinContext.Data.Models
 				set { _Roleid = value; Track("RoleId"); }
 			}
 			int _Roleid;
-	        [Column] public string Title 
+			[Column("RoleName")] public string Rolename 
 			{ 
-				get { return _Title; }
-				set { _Title = value; Track("Title"); }
+				get { return _Rolename; }
+				set { _Rolename = value; Track("RoleName"); }
 			}
-			string _Title;
-			[Column("_Desc")] public string Desc 
+			string _Rolename;
+			[Column("RoleDesc")] public string Roledesc 
 			{ 
-				get { return _Desc; }
-				set { _Desc = value; Track("_Desc"); }
+				get { return _Roledesc; }
+				set { _Roledesc = value; Track("RoleDesc"); }
 			}
-			string _Desc;
+			string _Roledesc;
 			[Column("IsRoleActive")] public bool? Isroleactive 
 			{ 
 				get { return _Isroleactive; }
@@ -541,130 +801,6 @@ namespace DolphinContext.Data.Models
 					sql.Where("Id IN (@0)", Id);
 
                 return db.Query<UserAuditTrail>(sql);
-            }
-		}
-		
-		[TableName("dbo.Dol_User")]
-		[PrimaryKey("UserId")]
-		[ExplicitColumns]
-		public partial class DolUser : DolphinDb.Record<DolUser>  
-		{
-			[Column("UserId")] public int Userid 
-			{ 
-				get { return _Userid; }
-				set { _Userid = value; Track("UserId"); }
-			}
-			int _Userid;
-			[Column("FirstName")] public string Firstname 
-			{ 
-				get { return _Firstname; }
-				set { _Firstname = value; Track("FirstName"); }
-			}
-			string _Firstname;
-			[Column("MiddleName")] public string Middlename 
-			{ 
-				get { return _Middlename; }
-				set { _Middlename = value; Track("MiddleName"); }
-			}
-			string _Middlename;
-			[Column("LastName")] public string Lastname 
-			{ 
-				get { return _Lastname; }
-				set { _Lastname = value; Track("LastName"); }
-			}
-			string _Lastname;
-			[Column("UserName")] public string Username 
-			{ 
-				get { return _Username; }
-				set { _Username = value; Track("UserName"); }
-			}
-			string _Username;
-	        [Column] public string Email 
-			{ 
-				get { return _Email; }
-				set { _Email = value; Track("Email"); }
-			}
-			string _Email;
-	        [Column] public string Password 
-			{ 
-				get { return _Password; }
-				set { _Password = value; Track("Password"); }
-			}
-			string _Password;
-			[Column("PhoneNo")] public string Phoneno 
-			{ 
-				get { return _Phoneno; }
-				set { _Phoneno = value; Track("PhoneNo"); }
-			}
-			string _Phoneno;
-			[Column("RoleId")] public int? Roleid 
-			{ 
-				get { return _Roleid; }
-				set { _Roleid = value; Track("RoleId"); }
-			}
-			int? _Roleid;
-			[Column("ClientId")] public int? Clientid 
-			{ 
-				get { return _Clientid; }
-				set { _Clientid = value; Track("ClientId"); }
-			}
-			int? _Clientid;
-			[Column("UserImg")] public string Userimg 
-			{ 
-				get { return _Userimg; }
-				set { _Userimg = value; Track("UserImg"); }
-			}
-			string _Userimg;
-			[Column("IsUserActive")] public bool? Isuseractive 
-			{ 
-				get { return _Isuseractive; }
-				set { _Isuseractive = value; Track("IsUserActive"); }
-			}
-			bool? _Isuseractive;
-			[Column("IsDelete")] public bool? Isdelete 
-			{ 
-				get { return _Isdelete; }
-				set { _Isdelete = value; Track("IsDelete"); }
-			}
-			bool? _Isdelete;
-			[Column("CreatedBy")] public string Createdby 
-			{ 
-				get { return _Createdby; }
-				set { _Createdby = value; Track("CreatedBy"); }
-			}
-			string _Createdby;
-			[Column("CreatedOn")] public DateTime? Createdon 
-			{ 
-				get { return _Createdon; }
-				set { _Createdon = value; Track("CreatedOn"); }
-			}
-			DateTime? _Createdon;
-			[Column("ModifiedBy")] public string Modifiedby 
-			{ 
-				get { return _Modifiedby; }
-				set { _Modifiedby = value; Track("ModifiedBy"); }
-			}
-			string _Modifiedby;
-			[Column("ModifiedOn")] public DateTime? Modifiedon 
-			{ 
-				get { return _Modifiedon; }
-				set { _Modifiedon = value; Track("ModifiedOn"); }
-			}
-			DateTime? _Modifiedon;
-		
-			public static IEnumerable<DolUser> Query(Database db, string[] columns = null, int[] Userid = null)
-            {
-                var sql = new Sql();
-
-                if (columns != null)
-                    sql.Select(columns);
-
-                sql.From("dbo.Dol_User (NOLOCK)");
-
-				if (Userid != null)
-					sql.Where("UserId IN (@0)", Userid);
-
-                return db.Query<DolUser>(sql);
             }
 		}
 		

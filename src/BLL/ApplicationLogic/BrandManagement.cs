@@ -60,6 +60,13 @@ namespace BLL.ApplicationLogic
         }
 
 
+        public List<BrandObj> GetAllBrands()
+        {
+            string SQL = "Select * from Dol_Brand";
+            var brand = _db.Fetch<BrandObj>(SQL).ToList();
+            return brand;
+        }
+
         public bool InsertBrand(string BrandName, string BrandDesc, bool IsBrandActive, string CreatedBy, string SystemIp, string SystemName)
         {
             try
