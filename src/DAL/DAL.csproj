@@ -76,24 +76,36 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
-    <Compile Include="CustomObjects\AppResp.cs" />
-    <Compile Include="CustomObjects\AuditObj.cs" />
-    <Compile Include="CustomObjects\BrandObj.cs" />
-    <Compile Include="CustomObjects\ClientObj.cs" />
     <Compile Include="CustomObjects\Constants.cs" />
-    <Compile Include="CustomObjects\EmailObj.cs" />
-    <Compile Include="CustomObjects\MenuObj.cs" />
-    <Compile Include="CustomObjects\RegionObj.cs" />
-    <Compile Include="CustomObjects\RoleObj.cs" />
-    <Compile Include="CustomObjects\StateObj.cs" />
-    <Compile Include="CustomObjects\TerminalObj.cs" />
-    <Compile Include="CustomObjects\UserObj.cs" />
     <Compile Include="DataObjects\Database.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\AuditRequest.cs" />
+    <Compile Include="Request\ClientRequest.cs" />
+    <Compile Include="Request\EmailRequest.cs" />
+    <Compile Include="Request\LoginRequest.cs" />
+    <Compile Include="Request\MenuRequest.cs" />
+    <Compile Include="Request\RoleMenuRequest.cs" />
+    <Compile Include="Request\RoleRequest.cs" />
+    <Compile Include="Request\TerminalBulkRequest.cs" />
+    <Compile Include="Request\TerminalRequest.cs" />
+    <Compile Include="Request\UserDetailsBulkRequest.cs" />
+    <Compile Include="Request\UserDetailsRequest.cs" />
+    <Compile Include="Response\AuditResponse.cs" />
+    <Compile Include="Response\BrandResponse.cs" />
+    <Compile Include="Response\ClientResponse.cs" />
+    <Compile Include="Response\EmailResponse.cs" />
+    <Compile Include="Response\LoginResponse.cs" />
+    <Compile Include="Response\MenuResponse.cs" />
+    <Compile Include="Response\RoleMenuResponse.cs" />
+    <Compile Include="Response\RoleResponse.cs" />
+    <Compile Include="Response\StateResponse.cs" />
+    <Compile Include="Response\TerminalResponse.cs" />
+    <Compile Include="Response\UserDetailsResponse.cs" />
+    <Compile Include="Response\UserMenuResponse.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

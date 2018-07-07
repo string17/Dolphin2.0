@@ -1,8 +1,10 @@
-﻿using DAL.CustomObjects;
+﻿using DAL.Response;
 using DolphinContext.Data.Models;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,60 +13,36 @@ namespace BLL.ApplicationLogic
     public class BrandManagement
     {
         private readonly DolphinDb _db = DolphinDb.GetInstance();
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+
         public List<DolBrand> GetBrandById()
         {
-            var actual = _db.Fetch<DolBrand>().ToList();
-            return actual;
+            return _db.Fetch<DolBrand>().ToList();
         }
 
         public List<DolBrand> ExcludeBrand(string BrandName)
         {
-            string sql = "Select * from Dol_Brand where BrandName <> @0 ";
-            var actual = _db.Fetch<DolBrand>(sql, BrandName).ToList();
-            return actual;
+            return _db.Fetch<DolBrand>("Select * from Dol_Brand where BrandName <> @0 ", BrandName).ToList();
         }
 
-        public BrandResp GetBrandDetails(int? BrandId)
+        public BrandDetailsObj GetBrandDetails(int? BrandId)
         {
             string sql = "Select * from Dol_Brand where BrandId =@0";
-            var actual = _db.FirstOrDefault<DolBrand>(sql, BrandId);
-            if (actual != null)
-            {
-                return new BrandResp
-                {
-                    RespCode = "00",
-                    RespMessage = "Success",
-                    BrandName = actual.Brandname,
-                    BrandDesc = actual.Branddesc,
-                    IsBrandActive = actual.Isbrandactive,
-                    BrandId = actual.Brandid
-                    
-                };
-            }
-            else
-            {
-                return new BrandResp
-                {
-                    RespCode = "04",
-                    RespMessage = "Failure"
-                };
-            }
+            return _db.FirstOrDefault<BrandDetailsObj>(sql, BrandId);
+   
         }
 
 
-        public DolClient GetBrandByName(string BrandName)
+        public DolBrand GetBrandByName(string BrandName)
         {
-            string SQL = "Select * from Dol_Brand where BrandName =@0";
-            var actual = _db.FirstOrDefault<DolClient>(SQL, BrandName);
-            return actual;
+            return _db.FirstOrDefault<DolBrand>("Select * from Dol_Brand where BrandName =@0", BrandName);
         }
 
 
-        public List<BrandObj> GetAllBrands()
+        public List<BrandDetailsObj> GetAllBrands()
         {
-            string SQL = "Select * from Dol_Brand";
-            var brand = _db.Fetch<BrandObj>(SQL).ToList();
-            return brand;
+            return _db.Fetch<BrandDetailsObj>("Select * from Dol_Brand").ToList();
         }
 
         public bool InsertBrand(string BrandName, string BrandDesc, bool IsBrandActive, string CreatedBy, string SystemIp, string SystemName)
@@ -81,8 +59,9 @@ namespace BLL.ApplicationLogic
                 _db.Insert(brand);
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.ErrorFormat("InsertBrandDetails", ex);
                 return false;
             }
 
@@ -102,10 +81,32 @@ namespace BLL.ApplicationLogic
                 _db.Update(brand);
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.ErrorFormat("UpdateBrandDetails", ex);
                 return false;
             }
+        }
+
+        public BrandResponse ListAllAvailableBrands()
+        {
+            var success = GetAllBrands();
+            if (success == null)
+            {
+                return new BrandResponse
+                {
+                    ResponseCode = "00",
+                    ResponseMessage = "No data found",
+                    BrandDetails = new List<BrandDetailsObj>()
+                };
+            }
+
+            return new BrandResponse
+            {
+                ResponseCode = "00",
+                ResponseMessage = "Success",
+                BrandDetails = success
+            };
         }
     }
 }

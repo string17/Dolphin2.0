@@ -1,7 +1,11 @@
 ﻿using DAL.CustomObjects;
+using DAL.Request;
+using DAL.Response;
 using DolphinContext.Data.Models;
+using log4net;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace BLL.ApplicationLogic
@@ -9,8 +13,9 @@ namespace BLL.ApplicationLogic
     public class AuditManagement
     {
         private readonly DolphinDb _db = DolphinDb.GetInstance();
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        
+
         public bool InsertAudit(string UserName,string UserActivity,string Comment, DateTime EventDate,string SystemName,string SystemIp)
         {
             try
@@ -27,16 +32,15 @@ namespace BLL.ApplicationLogic
             }
             catch(Exception ex)
             {
+                Log.ErrorFormat("InsertAudit", ex.Message);
                 return false;
             }
            
         }
 
-        public List<AuditObj> GetAuditById()
+        public List<AuditResponse> GetAuditById()
         {
-            string sql = "select * from Audit_Trail order by AuditId desc";
-            var actual = _db.Fetch<AuditObj>(sql);
-            return actual;
+              return _db.Fetch<AuditResponse>("select * from Audit_Trail order by AuditId desc");
         }
 
 
@@ -56,6 +60,7 @@ namespace BLL.ApplicationLogic
             }
             catch (Exception ex)
             {
+                Log.ErrorFormat("InsertSession", ex.Message);
                 return false;
             }
         }
@@ -63,18 +68,13 @@ namespace BLL.ApplicationLogic
 
         public UserTracking TrackLogin(string username)
         {
-            string sql = "select * from User_Tracking where UserName =@0";
-            var actual = _db.FirstOrDefault<UserTracking>(sql, username);
-            return actual;
+            return _db.FirstOrDefault<UserTracking>("select * from User_Tracking where UserName =@0", username);
         }
 
 
         public int GetLoginSequence()
         {
-            string sql = "select top 1 Tid from User_Tracking order by Tid desc";
-            int lastSequence = _db.ExecuteScalar<int>(sql);
-            
-            return lastSequence;
+            return _db.ExecuteScalar<int>("select top 1 Tid from User_Tracking order by Tid desc");
         }
 
 
@@ -89,6 +89,32 @@ namespace BLL.ApplicationLogic
             else
             {
                 return false;
+            }
+        }
+
+
+        public LoginResponse UserLogout(LoginRequest param)
+        {
+            bool userLogout = TerminateSession(param.UserName);
+            if (userLogout)
+            {
+                Log.InfoFormat(param.Computername, param.SystemIp, param.UserName, Constants.ActionType.LogoutAccount.ToString());
+                InsertAudit(param.UserName, Constants.ActionType.LogoutAccount.ToString(), "Logout", DateTime.Now, param.Computername, param.SystemIp);
+                return new LoginResponse
+                {
+                    ResponseCode = "00",
+                    ResponseMessage = "Logout successful"
+
+                };
+            }
+            else
+            {
+                Log.InfoFormat(param.Computername, param.SystemIp, param.UserName, Constants.ActionType.LogoutAccount.ToString());
+                return new LoginResponse
+                {
+                    ResponseCode = "01",
+                    ResponseMessage = "Logout failed"
+                };
             }
         }
     }

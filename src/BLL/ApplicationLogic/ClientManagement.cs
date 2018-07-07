@@ -1,8 +1,12 @@
 ﻿using DAL.CustomObjects;
+using DAL.Request;
+using DAL.Response;
 using DolphinContext.Data.Models;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,70 +16,77 @@ namespace BLL.ApplicationLogic
     public class ClientManagement
     {
         private readonly DolphinDb _db = DolphinDb.GetInstance();
-
-        //public List<DolClient> GetClientById()
-        //{
-        //    var actual = _db.Fetch<DolClient>().ToList();
-        //    return actual;
-        //}
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly AuditManagement _audit = new AuditManagement();
 
 
         //Get list of clients
-        public List<DolClient> GetClientList()
+        public List<ClientDetailsObj> GetClientList()
         {
-            var actual = _db.Fetch<DolClient>().ToList();
-            return actual;
+            return _db.Fetch<ClientDetailsObj>().ToList();
         }
 
 
         //Exclude client
-        public List<ClientObj> ExcludeClient(string ClientName)
+        public List<ClientDetailsObj> ExcludeClient(string ClientName)
         {
-            string sql = "Select * from Dol_Client where ClientName <> @0 ";
-            var clients = _db.Fetch<ClientObj>(sql, ClientName).ToList();
-            return clients;
+            return _db.Fetch<ClientDetailsObj>("Select * from Dol_Client where ClientName <> @0 ", ClientName).ToList();
         }
 
 
-           public ClientResp GetClientDetails(int? ClientId)
+        public ClientDetailsObj GetClientDetailsById(int? ClientId)
         {
-            string sql = "Select * from Dol_Client where ClientId =@0";
-            var actual = _db.FirstOrDefault<DolClient>(sql, ClientId);
-            if (actual != null)
+            return _db.FirstOrDefault<ClientDetailsObj>("Select * from Dol_Client where ClientId =@0", ClientId);
+        }
+
+
+
+        public ClientResponse ClientDetails(ClientDetailsObj request)
+        {
+            var success = GetClientDetailsById(request.ClientId);
+            if (success != null)
             {
-                return new ClientResp
+                //var param = new ClientDetailsObj
+                //{
+                //    ClientId = success.ClientId,
+                //    ClientName = success.ClientName,
+                //    RespTimeIn = Convert.ToInt32(success.RespTimeIn),
+                //    RestTimeIn = Convert.ToInt32(success.RestTimeIn),
+                //    RespTimeOut = Convert.ToInt32(success.RespTimeOut),
+                //    RestTimeOut = Convert.ToInt32(success.RestTimeOut),
+                //    ClientBanner = success.ClientBanner,
+                //    ClientAlias = success.ClientAlias,
+                //    IsClientActive = success.IsClientActive,
+                //    CreatedBy = success.CreatedBy,
+                //    CreatedOn = success.CreatedOn
+                //};
+                var client = new List<ClientDetailsObj>
                 {
-                    RespCode = "00",
-                    RespMessage = "Success",
-                    ClientId=actual.Clientid,
-                    ClientBanner = actual.Clientbanner,
-                    ClientAlias = actual.Clientalias,
-                    ClientName = actual.Clientname,
-                    RestTime = actual.Resttime,
-                    RespTime = actual.Resptime,
-                    RespTimeUp=actual.Resptimeup,
-                    RestTimeUp=actual.Resttimeup,
-                    IsClientActive = actual.Isclientactive,
-                    CreatedBy = actual.Createdby,
-                    CreatedOn = actual.Createdon
+                    success
+                };
+
+                return new ClientResponse
+                {
+                    ResponseCode = "00",
+                    ResponseMessage = "Success",
+                    ClientDetails = client
                 };
             }
             else
             {
-                return new ClientResp
+                return new ClientResponse
                 {
-                    RespCode = "04",
-                    RespMessage = "Failure"
+                    ResponseCode = "04",
+                    ResponseMessage = "Failure",
+                    ClientDetails = new List<ClientDetailsObj>()
                 };
             }
-         }
+        }
 
 
         public DolClient GetClientByName(string ClientName)
         {
-            string SQL = "Select * from Dol_Client where ClientName =@0";
-            var actual = _db.FirstOrDefault<DolClient>(SQL, ClientName);
-            return actual;
+            return _db.FirstOrDefault<DolClient>("Select * from Dol_Client where ClientName =@0", ClientName);
         }
 
 
@@ -93,50 +104,163 @@ namespace BLL.ApplicationLogic
         }
 
 
-        public bool InsertClient(string ClientName, string ClientAlias, string ClientBanner, int RespTime, int RestTime, int RespTimeUp, int RestTimeUp, bool IsClientActive,string CreatedBy)
+        public bool InsertClient(ClientRequest request)
         {
             try
             {
-                var client = new DolClient();
-                client.Clientname = ClientName;
-                client.Clientalias = ClientAlias;
-                client.Resptime = RespTime;
-                client.Resttime = RestTime;
-                client.Resptimeup = RespTimeUp;
-                client.Resttimeup = RestTimeUp;
-                client.Isclientactive = IsClientActive;
-                client.Clientbanner = ClientBanner;
-                client.Createdon = DateTime.Now;
-                client.Createdby = CreatedBy;
-                _db.Insert(client);
+                _db.Insert(request);
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.ErrorFormat("InsertClient", ex.Message);
                 return false;
             }
 
         }
 
-        public bool UpdateClient(string ClientName, string ClientAlias, string ClientBanner, int RespTime, int RestTime, int RespTimeUp, int RestTimeUp, bool IsClientActive, int ClientId)
+        public bool UpdateClient(ClientRequest request)
         {
             try
             {
-                var client = _db.SingleOrDefault<DolClient>("WHERE ClientId=@0", ClientId);
-                client.Clientname = ClientName;
-                client.Clientalias = ClientAlias;
-                client.Isclientactive = IsClientActive;
-                client.Clientbanner = ClientBanner;
-                client.Resptime = RespTime;
-                client.Resttime = RestTime;
-                client.Resptimeup = RespTimeUp;
-                client.Resttimeup = RestTimeUp;
+                var client = _db.SingleOrDefault<DolClient>("WHERE ClientId=@0", request.ClientId);
+                client.Clientname = request.ClientName;
+                client.Clientalias = request.ClientAlias;
+                client.Isclientactive = request.IsClientActive;
+                client.Clientbanner = request.ClientBanner;
+                client.Resptimein = request.RespTimeIn;
+                client.Resttimein = request.RestTimeIn;
+                client.Resptimeout = request.RespTimeOut;
+                client.Resttimeout = request.RestTimeOut;
                 _db.Update(client);
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.ErrorFormat("UpdateClient", ex);
                 return false;
+            }
+        }
+
+
+        public ClientResponse ListOnlyCustomerRole()
+        {
+            string ClientName = "Altaviz";
+            var success = ExcludeClient(ClientName);
+            if (success == null)
+            {
+                return new ClientResponse
+                {
+                    ResponseCode = "01",
+                    ResponseMessage = "Failure",
+                    ClientDetails = new List<ClientDetailsObj>()
+                };
+            }
+
+            return new ClientResponse
+            {
+                ResponseCode = "00",
+                ResponseMessage = "Success",
+                ClientDetails = success
+            };
+        }
+
+
+        public ClientResponse InsertClientDetails(ClientRequest param)
+        {
+            if (param.ClientName == string.Empty)
+            {
+                return new ClientResponse
+                {
+                    ResponseCode = "01",
+                    ResponseMessage = "Kindly supply the name",
+                    ClientDetails = new List<ClientDetailsObj>()
+                };
+            }
+            var client = GetClientByName(param.ClientAlias.ToUpper());
+            if (client != null)
+            {
+                    return new ClientResponse
+                    {
+                        ResponseCode = "02",
+                        ResponseMessage = "Record already exist",
+                         ClientDetails=new List<ClientDetailsObj>()
+                    };
+                }
+
+
+                bool success = InsertClient(param);
+                if (success)
+                {
+                    Log.InfoFormat(param.Computername, param.SystemIp, param.CreatedBy, Constants.ActionType.SetupClient.ToString());
+                    _audit.InsertAudit(param.CreatedBy, Constants.ActionType.SetupClient.ToString(), "Setup client account", DateTime.Now, param.Computername, param.SystemIp);
+                    return new ClientResponse
+                    {
+                        ResponseCode = "00",
+                        ResponseMessage = "Record created successfully",
+                        ClientDetails = new List<ClientDetailsObj>()
+                    };
+                }
+            else
+            {
+                Log.InfoFormat(param.Computername, param.SystemIp, param.CreatedBy, Constants.ActionType.SetupClient.ToString());
+                return new ClientResponse
+                {
+                    ResponseCode = "03",
+                    ResponseMessage = "Unable to setup the record",
+                    ClientDetails = new List<ClientDetailsObj>()
+                };
+            }
+        }
+
+
+        public ClientResponse ModifyClientDetails(ClientRequest param)
+        {
+            bool success = UpdateClient(param);
+            if (success)
+            {
+                Log.InfoFormat(param.Computername, param.SystemIp, param.CreatedBy, Constants.ActionType.ModifyClientDetails.ToString());
+                _audit.InsertAudit(param.CreatedBy, Constants.ActionType.ModifyClientDetails.ToString(), "Client detail changed", DateTime.Now, param.Computername, param.SystemIp);
+                return new ClientResponse
+                {
+                    ResponseCode = "00",
+                    ResponseMessage = "record updated successfully",
+                    ClientDetails=new List<ClientDetailsObj>()
+                };
+            }
+            else
+            {
+                Log.InfoFormat(param.Computername, param.SystemIp, param.CreatedBy, Constants.ActionType.ModifyClientDetails.ToString());
+                return new ClientResponse
+                {
+                    ResponseCode = "04",
+                    ResponseMessage = "Unable to update record",
+                    ClientDetails = new List<ClientDetailsObj>()
+                };
+            }
+
+        }
+
+        public ClientResponse ListAllClient()
+        {
+            var success = GetClientList();
+            if (success == null)
+            {
+                return new ClientResponse
+                {
+                    ResponseCode = "01",
+                    ResponseMessage = "No record found",
+                    ClientDetails = new List<ClientDetailsObj>()
+                };
+            }
+            else
+            {
+                return new ClientResponse
+                {
+                    ResponseCode = "00",
+                    ResponseMessage = "Success",
+                    ClientDetails = new List<ClientDetailsObj>()
+                };
             }
         }
     }

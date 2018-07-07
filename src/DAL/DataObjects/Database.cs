@@ -413,30 +413,30 @@ namespace DolphinContext.Data.Models
 				set { _Clientbanner = value; Track("ClientBanner"); }
 			}
 			string _Clientbanner;
-			[Column("RespTime")] public int? Resptime 
+			[Column("RespTimeIn")] public int? Resptimein 
 			{ 
-				get { return _Resptime; }
-				set { _Resptime = value; Track("RespTime"); }
+				get { return _Resptimein; }
+				set { _Resptimein = value; Track("RespTimeIn"); }
 			}
-			int? _Resptime;
-			[Column("RestTime")] public int? Resttime 
+			int? _Resptimein;
+			[Column("RestTimeIn")] public int? Resttimein 
 			{ 
-				get { return _Resttime; }
-				set { _Resttime = value; Track("RestTime"); }
+				get { return _Resttimein; }
+				set { _Resttimein = value; Track("RestTimeIn"); }
 			}
-			int? _Resttime;
-			[Column("RespTimeUp")] public int? Resptimeup 
+			int? _Resttimein;
+			[Column("RespTimeOut")] public int? Resptimeout 
 			{ 
-				get { return _Resptimeup; }
-				set { _Resptimeup = value; Track("RespTimeUp"); }
+				get { return _Resptimeout; }
+				set { _Resptimeout = value; Track("RespTimeOut"); }
 			}
-			int? _Resptimeup;
-			[Column("RestTimeUp")] public int? Resttimeup 
+			int? _Resptimeout;
+			[Column("RestTimeOut")] public int? Resttimeout 
 			{ 
-				get { return _Resttimeup; }
-				set { _Resttimeup = value; Track("RestTimeUp"); }
+				get { return _Resttimeout; }
+				set { _Resttimeout = value; Track("RestTimeOut"); }
 			}
-			int? _Resttimeup;
+			int? _Resttimeout;
 			[Column("IsClientActive")] public bool? Isclientactive 
 			{ 
 				get { return _Isclientactive; }
@@ -694,6 +694,46 @@ namespace DolphinContext.Data.Models
             }
 		}
 		
+		[TableName("dbo.Author")]
+		[PrimaryKey("Id")]
+		[ExplicitColumns]
+		public partial class Author : DolphinDb.Record<Author>  
+		{
+	        [Column] public int Id 
+			{ 
+				get { return _Id; }
+				set { _Id = value; Track("Id"); }
+			}
+			int _Id;
+	        [Column] public string Name 
+			{ 
+				get { return _Name; }
+				set { _Name = value; Track("Name"); }
+			}
+			string _Name;
+	        [Column] public string Sex 
+			{ 
+				get { return _Sex; }
+				set { _Sex = value; Track("Sex"); }
+			}
+			string _Sex;
+		
+			public static IEnumerable<Author> Query(Database db, string[] columns = null, int[] Id = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("dbo.Author (NOLOCK)");
+
+				if (Id != null)
+					sql.Where("Id IN (@0)", Id);
+
+                return db.Query<Author>(sql);
+            }
+		}
+		
 		[TableName("dbo.User_Role")]
 		[PrimaryKey("RoleId")]
 		[ExplicitColumns]
@@ -801,6 +841,386 @@ namespace DolphinContext.Data.Models
 					sql.Where("Id IN (@0)", Id);
 
                 return db.Query<UserAuditTrail>(sql);
+            }
+		}
+		
+		[TableName("HangFire.Schema")]
+		[PrimaryKey("Version", AutoIncrement=false)]
+		[ExplicitColumns]
+		public partial class Schema : DolphinDb.Record<Schema>  
+		{
+	        [Column] public int Version 
+			{ 
+				get { return _Version; }
+				set { _Version = value; Track("Version"); }
+			}
+			int _Version;
+		
+			public static IEnumerable<Schema> Query(Database db, string[] columns = null, int[] Version = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("HangFire.Schema (NOLOCK)");
+
+				if (Version != null)
+					sql.Where("Version IN (@0)", Version);
+
+                return db.Query<Schema>(sql);
+            }
+		}
+		
+		[TableName("HangFire.Job")]
+		[PrimaryKey("Id")]
+		[ExplicitColumns]
+		public partial class Job : DolphinDb.Record<Job>  
+		{
+	        [Column] public int Id 
+			{ 
+				get { return _Id; }
+				set { _Id = value; Track("Id"); }
+			}
+			int _Id;
+			[Column("StateId")] public int? Stateid 
+			{ 
+				get { return _Stateid; }
+				set { _Stateid = value; Track("StateId"); }
+			}
+			int? _Stateid;
+			[Column("StateName")] public string Statename 
+			{ 
+				get { return _Statename; }
+				set { _Statename = value; Track("StateName"); }
+			}
+			string _Statename;
+			[Column("InvocationData")] public string Invocationdata 
+			{ 
+				get { return _Invocationdata; }
+				set { _Invocationdata = value; Track("InvocationData"); }
+			}
+			string _Invocationdata;
+	        [Column] public string Arguments 
+			{ 
+				get { return _Arguments; }
+				set { _Arguments = value; Track("Arguments"); }
+			}
+			string _Arguments;
+			[Column("CreatedAt")] public DateTime Createdat 
+			{ 
+				get { return _Createdat; }
+				set { _Createdat = value; Track("CreatedAt"); }
+			}
+			DateTime _Createdat;
+			[Column("ExpireAt")] public DateTime? Expireat 
+			{ 
+				get { return _Expireat; }
+				set { _Expireat = value; Track("ExpireAt"); }
+			}
+			DateTime? _Expireat;
+		
+			public static IEnumerable<Job> Query(Database db, string[] columns = null, int[] Id = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("HangFire.Job (NOLOCK)");
+
+				if (Id != null)
+					sql.Where("Id IN (@0)", Id);
+
+                return db.Query<Job>(sql);
+            }
+		}
+		
+		[TableName("HangFire.State")]
+		[PrimaryKey("Id")]
+		[ExplicitColumns]
+		public partial class State : DolphinDb.Record<State>  
+		{
+	        [Column] public int Id 
+			{ 
+				get { return _Id; }
+				set { _Id = value; Track("Id"); }
+			}
+			int _Id;
+			[Column("JobId")] public int Jobid 
+			{ 
+				get { return _Jobid; }
+				set { _Jobid = value; Track("JobId"); }
+			}
+			int _Jobid;
+	        [Column] public string Name 
+			{ 
+				get { return _Name; }
+				set { _Name = value; Track("Name"); }
+			}
+			string _Name;
+	        [Column] public string Reason 
+			{ 
+				get { return _Reason; }
+				set { _Reason = value; Track("Reason"); }
+			}
+			string _Reason;
+			[Column("CreatedAt")] public DateTime Createdat 
+			{ 
+				get { return _Createdat; }
+				set { _Createdat = value; Track("CreatedAt"); }
+			}
+			DateTime _Createdat;
+	        [Column] public string Data 
+			{ 
+				get { return _Data; }
+				set { _Data = value; Track("Data"); }
+			}
+			string _Data;
+		
+			public static IEnumerable<State> Query(Database db, string[] columns = null, int[] Id = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("HangFire.State (NOLOCK)");
+
+				if (Id != null)
+					sql.Where("Id IN (@0)", Id);
+
+                return db.Query<State>(sql);
+            }
+		}
+		
+		[TableName("HangFire.JobParameter")]
+		[PrimaryKey("Id")]
+		[ExplicitColumns]
+		public partial class JobParameter : DolphinDb.Record<JobParameter>  
+		{
+	        [Column] public int Id 
+			{ 
+				get { return _Id; }
+				set { _Id = value; Track("Id"); }
+			}
+			int _Id;
+			[Column("JobId")] public int Jobid 
+			{ 
+				get { return _Jobid; }
+				set { _Jobid = value; Track("JobId"); }
+			}
+			int _Jobid;
+	        [Column] public string Name 
+			{ 
+				get { return _Name; }
+				set { _Name = value; Track("Name"); }
+			}
+			string _Name;
+	        [Column] public string Value 
+			{ 
+				get { return _Value; }
+				set { _Value = value; Track("Value"); }
+			}
+			string _Value;
+		
+			public static IEnumerable<JobParameter> Query(Database db, string[] columns = null, int[] Id = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("HangFire.JobParameter (NOLOCK)");
+
+				if (Id != null)
+					sql.Where("Id IN (@0)", Id);
+
+                return db.Query<JobParameter>(sql);
+            }
+		}
+		
+		[TableName("HangFire.JobQueue")]
+		[PrimaryKey("Id")]
+		[ExplicitColumns]
+		public partial class JobQueue : DolphinDb.Record<JobQueue>  
+		{
+	        [Column] public int Id 
+			{ 
+				get { return _Id; }
+				set { _Id = value; Track("Id"); }
+			}
+			int _Id;
+			[Column("JobId")] public int Jobid 
+			{ 
+				get { return _Jobid; }
+				set { _Jobid = value; Track("JobId"); }
+			}
+			int _Jobid;
+	        [Column] public string Queue 
+			{ 
+				get { return _Queue; }
+				set { _Queue = value; Track("Queue"); }
+			}
+			string _Queue;
+			[Column("FetchedAt")] public DateTime? Fetchedat 
+			{ 
+				get { return _Fetchedat; }
+				set { _Fetchedat = value; Track("FetchedAt"); }
+			}
+			DateTime? _Fetchedat;
+		
+			public static IEnumerable<JobQueue> Query(Database db, string[] columns = null, int[] Id = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("HangFire.JobQueue (NOLOCK)");
+
+				if (Id != null)
+					sql.Where("Id IN (@0)", Id);
+
+                return db.Query<JobQueue>(sql);
+            }
+		}
+		
+		[TableName("HangFire.Server")]
+		[PrimaryKey("Id", AutoIncrement=false)]
+		[ExplicitColumns]
+		public partial class Server : DolphinDb.Record<Server>  
+		{
+	        [Column] public string Id 
+			{ 
+				get { return _Id; }
+				set { _Id = value; Track("Id"); }
+			}
+			string _Id;
+	        [Column] public string Data 
+			{ 
+				get { return _Data; }
+				set { _Data = value; Track("Data"); }
+			}
+			string _Data;
+			[Column("LastHeartbeat")] public DateTime Lastheartbeat 
+			{ 
+				get { return _Lastheartbeat; }
+				set { _Lastheartbeat = value; Track("LastHeartbeat"); }
+			}
+			DateTime _Lastheartbeat;
+		
+			public static IEnumerable<Server> Query(Database db, string[] columns = null, string[] Id = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("HangFire.Server (NOLOCK)");
+
+				if (Id != null)
+					sql.Where("Id IN (@0)", Id);
+
+                return db.Query<Server>(sql);
+            }
+		}
+		
+		[TableName("HangFire.List")]
+		[PrimaryKey("Id")]
+		[ExplicitColumns]
+		public partial class List : DolphinDb.Record<List>  
+		{
+	        [Column] public int Id 
+			{ 
+				get { return _Id; }
+				set { _Id = value; Track("Id"); }
+			}
+			int _Id;
+	        [Column] public string Key 
+			{ 
+				get { return _Key; }
+				set { _Key = value; Track("Key"); }
+			}
+			string _Key;
+	        [Column] public string Value 
+			{ 
+				get { return _Value; }
+				set { _Value = value; Track("Value"); }
+			}
+			string _Value;
+			[Column("ExpireAt")] public DateTime? Expireat 
+			{ 
+				get { return _Expireat; }
+				set { _Expireat = value; Track("ExpireAt"); }
+			}
+			DateTime? _Expireat;
+		
+			public static IEnumerable<List> Query(Database db, string[] columns = null, int[] Id = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("HangFire.List (NOLOCK)");
+
+				if (Id != null)
+					sql.Where("Id IN (@0)", Id);
+
+                return db.Query<List>(sql);
+            }
+		}
+		
+		[TableName("HangFire.Set")]
+		[PrimaryKey("Id")]
+		[ExplicitColumns]
+		public partial class Set : DolphinDb.Record<Set>  
+		{
+	        [Column] public int Id 
+			{ 
+				get { return _Id; }
+				set { _Id = value; Track("Id"); }
+			}
+			int _Id;
+	        [Column] public string Key 
+			{ 
+				get { return _Key; }
+				set { _Key = value; Track("Key"); }
+			}
+			string _Key;
+	        [Column] public double Score 
+			{ 
+				get { return _Score; }
+				set { _Score = value; Track("Score"); }
+			}
+			double _Score;
+	        [Column] public string Value 
+			{ 
+				get { return _Value; }
+				set { _Value = value; Track("Value"); }
+			}
+			string _Value;
+			[Column("ExpireAt")] public DateTime? Expireat 
+			{ 
+				get { return _Expireat; }
+				set { _Expireat = value; Track("ExpireAt"); }
+			}
+			DateTime? _Expireat;
+		
+			public static IEnumerable<Set> Query(Database db, string[] columns = null, int[] Id = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("HangFire.Set (NOLOCK)");
+
+				if (Id != null)
+					sql.Where("Id IN (@0)", Id);
+
+                return db.Query<Set>(sql);
             }
 		}
 		
@@ -914,6 +1334,150 @@ namespace DolphinContext.Data.Models
 				set { _Itemalias = value; Track("ItemAlias"); }
 			}
 			string _Itemalias;
+		}
+		
+		[TableName("HangFire.Counter")]
+		[PrimaryKey("Id")]
+		[ExplicitColumns]
+		public partial class Counter : DolphinDb.Record<Counter>  
+		{
+	        [Column] public int Id 
+			{ 
+				get { return _Id; }
+				set { _Id = value; Track("Id"); }
+			}
+			int _Id;
+	        [Column] public string Key 
+			{ 
+				get { return _Key; }
+				set { _Key = value; Track("Key"); }
+			}
+			string _Key;
+	        [Column] public short Value 
+			{ 
+				get { return _Value; }
+				set { _Value = value; Track("Value"); }
+			}
+			short _Value;
+			[Column("ExpireAt")] public DateTime? Expireat 
+			{ 
+				get { return _Expireat; }
+				set { _Expireat = value; Track("ExpireAt"); }
+			}
+			DateTime? _Expireat;
+		
+			public static IEnumerable<Counter> Query(Database db, string[] columns = null, int[] Id = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("HangFire.Counter (NOLOCK)");
+
+				if (Id != null)
+					sql.Where("Id IN (@0)", Id);
+
+                return db.Query<Counter>(sql);
+            }
+		}
+		
+		[TableName("HangFire.Hash")]
+		[PrimaryKey("Id")]
+		[ExplicitColumns]
+		public partial class Hash : DolphinDb.Record<Hash>  
+		{
+	        [Column] public int Id 
+			{ 
+				get { return _Id; }
+				set { _Id = value; Track("Id"); }
+			}
+			int _Id;
+	        [Column] public string Key 
+			{ 
+				get { return _Key; }
+				set { _Key = value; Track("Key"); }
+			}
+			string _Key;
+	        [Column] public string Field 
+			{ 
+				get { return _Field; }
+				set { _Field = value; Track("Field"); }
+			}
+			string _Field;
+	        [Column] public string Value 
+			{ 
+				get { return _Value; }
+				set { _Value = value; Track("Value"); }
+			}
+			string _Value;
+			[Column("ExpireAt")] public DateTime? Expireat 
+			{ 
+				get { return _Expireat; }
+				set { _Expireat = value; Track("ExpireAt"); }
+			}
+			DateTime? _Expireat;
+		
+			public static IEnumerable<Hash> Query(Database db, string[] columns = null, int[] Id = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("HangFire.Hash (NOLOCK)");
+
+				if (Id != null)
+					sql.Where("Id IN (@0)", Id);
+
+                return db.Query<Hash>(sql);
+            }
+		}
+		
+		[TableName("HangFire.AggregatedCounter")]
+		[PrimaryKey("Id")]
+		[ExplicitColumns]
+		public partial class AggregatedCounter : DolphinDb.Record<AggregatedCounter>  
+		{
+	        [Column] public int Id 
+			{ 
+				get { return _Id; }
+				set { _Id = value; Track("Id"); }
+			}
+			int _Id;
+	        [Column] public string Key 
+			{ 
+				get { return _Key; }
+				set { _Key = value; Track("Key"); }
+			}
+			string _Key;
+	        [Column] public long Value 
+			{ 
+				get { return _Value; }
+				set { _Value = value; Track("Value"); }
+			}
+			long _Value;
+			[Column("ExpireAt")] public DateTime? Expireat 
+			{ 
+				get { return _Expireat; }
+				set { _Expireat = value; Track("ExpireAt"); }
+			}
+			DateTime? _Expireat;
+		
+			public static IEnumerable<AggregatedCounter> Query(Database db, string[] columns = null, int[] Id = null)
+            {
+                var sql = new Sql();
+
+                if (columns != null)
+                    sql.Select(columns);
+
+                sql.From("HangFire.AggregatedCounter (NOLOCK)");
+
+				if (Id != null)
+					sql.Where("Id IN (@0)", Id);
+
+                return db.Query<AggregatedCounter>(sql);
+            }
 		}
 		
 		[TableName("dbo.Audit_Trail")]
