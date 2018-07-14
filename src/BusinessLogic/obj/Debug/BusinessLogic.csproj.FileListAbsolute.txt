@@ -1,0 +1,14 @@
+C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\BusinessLogic\bin\Debug\BusinessLogic.dll.config
+C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\BusinessLogic\bin\Debug\BusinessLogic.dll
+C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\BusinessLogic\bin\Debug\BusinessLogic.pdb
+C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\BusinessLogic\bin\Debug\DataAccess.dll
+C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\BusinessLogic\bin\Debug\log4net.dll
+C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\BusinessLogic\bin\Debug\NPoco.dll
+C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\BusinessLogic\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\BusinessLogic\bin\Debug\DataAccess.pdb
+C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\BusinessLogic\bin\Debug\DataAccess.dll.config
+C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\BusinessLogic\bin\Debug\log4net.xml
+C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\BusinessLogic\obj\Debug\BusinessLogic.csprojResolveAssemblyReference.cache
+C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\BusinessLogic\obj\Debug\BusinessLogic.csproj.CoreCompileInputs.cache
+C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\BusinessLogic\obj\Debug\BusinessLogic.dll
+C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\BusinessLogic\obj\Debug\BusinessLogic.pdb
