@@ -20,7 +20,7 @@ namespace BusinessLogic
     public class UserManagement
     {
         private readonly DolphinDb _db = DolphinDb.GetInstance();
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         //private readonly AuditManagement _audit = new AuditManagement();
         //private readonly RoleManagement _role = new RoleManagement();
         //private readonly ClientManagement _client = new ClientManagement();
@@ -227,7 +227,7 @@ namespace BusinessLogic
 
         public bool DoesUsernameExists(string Username)
         {
-            var _db= DolphinDb.GetInstance();
+            var _db = DolphinDb.GetInstance();
             var rslt = _db.SingleOrDefault<DolUser>("where UserName=@0", Username);
             if (rslt == null)
             {
@@ -304,53 +304,53 @@ namespace BusinessLogic
             {
                 if (param.UserName == null && param.Password == null)
                 {
-                    Log.ErrorFormat("Login ", new LoginResponse { ResponseCode = "01", ResponseMessage = "Null parameter" });
+                    log.ErrorFormat("Login ", new LoginResponse { ResponseCode = "01", ResponseMessage = "Null parameter" });
                     return new LoginResponse { ResponseCode = "01", ResponseMessage = "Kindly supply the missing parameter" };
                 }
                 var _userName = DoesUsernameExists(param.UserName);
                 if (!_userName)
                 {
-                    Log.ErrorFormat("UserName: ", param.UserName, new LoginResponse { ResponseCode = "02", ResponseMessage = "Invalid UserName" });
+                    log.ErrorFormat("UserName: ", param.UserName, new LoginResponse { ResponseCode = "02", ResponseMessage = "Invalid UserName" });
                     return new LoginResponse { ResponseCode = "02", ResponseMessage = "Invalid UserName" };
                 }
                 var _password = DoesPasswordExists(param.UserName, param.Password);
                 if (!_password)
                 {
-                    Log.ErrorFormat("Password: ", param.UserName, param.Password, new LoginResponse { ResponseCode = "03", ResponseMessage = "Invalid Password" });
+                    log.ErrorFormat("Password: ", param.UserName, param.Password, new LoginResponse { ResponseCode = "03", ResponseMessage = "Invalid Password" });
                     return new LoginResponse { ResponseCode = "03", ResponseMessage = "Invalid Password" };
                 }
 
                 bool _validUser = IsUserActive(param.UserName, param.Password);
                 if (!_validUser)
                 {
-                    Log.ErrorFormat("Password: ", param.UserName, param.Password, new LoginResponse { ResponseCode = "04", ResponseMessage = "Inactive account" });
+                    log.ErrorFormat("Password: ", param.UserName, param.Password, new LoginResponse { ResponseCode = "04", ResponseMessage = "Inactive account" });
                     return new LoginResponse { ResponseCode = "04", ResponseMessage = "Inactive account" };
                 }
 
                 bool isCompanyActive = IsCompanyActive(param.UserName);
                 if (!isCompanyActive)
                 {
-                    Log.ErrorFormat("Password: ", param.UserName, param.Password, new LoginResponse { ResponseCode = "05", ResponseMessage = "Company's account is not active" });
+                    log.ErrorFormat("Password: ", param.UserName, param.Password, new LoginResponse { ResponseCode = "05", ResponseMessage = "Company's account is not active" });
                     return new LoginResponse { ResponseCode = "05", ResponseMessage = "Company's account is not active" };
                 }
                 var existingAccount = GetFreshUser(param.UserName);
                 if (existingAccount != 0)
                 {
-                    Log.ErrorFormat("Valid credentials", param.UserName, param.Password, new LoginResponse { ResponseCode = "00", ResponseMessage = "Successful" });
+                    log.ErrorFormat("Valid credentials", param.UserName, param.Password, new LoginResponse { ResponseCode = "00", ResponseMessage = "Successful" });
                     //_audit.InsertAudit(param.UserName, Constants.ActionType.Login.ToString(), "Valid Credentials", DateTime.Now, param.Computername, param.SystemIp);
                    //_audit.InsertSessionTracker(param.UserName, param.SystemIp, param.Computername);
                     return new LoginResponse { ResponseCode = "00", ResponseMessage = "Successful" };
                 }
                 else
                 {
-                    Log.ErrorFormat("Valid credentials", param.UserName, param.Password, new LoginResponse { ResponseCode = "01", ResponseMessage = "Successful" });
+                    log.ErrorFormat("Valid credentials", param.UserName, param.Password, new LoginResponse { ResponseCode = "01", ResponseMessage = "Successful" });
                     return new LoginResponse { ResponseCode = "06", ResponseMessage = "Successful" };
                 }
             }
             catch (Exception ex)
             {
-                Log.ErrorFormat("Login ", new LoginResponse { ResponseCode = "07", ResponseMessage = ex.ToString() });
-                return new LoginResponse { ResponseCode = "07", ResponseMessage = "Kindly supply the missing parameter" };
+                log.ErrorFormat("Login ", new LoginResponse { ResponseCode = "XX", ResponseMessage = ex.ToString() });
+                return new LoginResponse { ResponseCode = "XX", ResponseMessage = "Application Error" };
             }
         }
 
@@ -577,7 +577,7 @@ namespace BusinessLogic
         {
             if (param.Email==string.Empty)
             {
-                Log.ErrorFormat("Email", param.Email, "Invalid email address");
+                log.ErrorFormat("Email", param.Email, "Invalid email address");
                 return new LoginResponse
                 {
                     ResponseCode = "01",
@@ -589,7 +589,7 @@ namespace BusinessLogic
             bool request = DoesEmailExists(param.Email);
             if (!request)
             {
-                Log.ErrorFormat("Email", param.Email, "Invalid email address");
+                log.ErrorFormat("Email", param.Email, "Invalid email address");
                 return new LoginResponse
                 {
                     ResponseCode = "01",
@@ -614,15 +614,14 @@ namespace BusinessLogic
             {
                 try
                 {
-                    object WebConfigurationManager = null;
-                    smtp.Host = ""; //WebConfigurationManager.AppSettings["EmailHost"];
+                    smtp.Host = WebConfigurationManager.AppSettings["EmailHost"];
                     smtp.EnableSsl = true;
                     NetworkCredential NetworkCred = new NetworkCredential(AuthUsername, AuthPWD);
                     smtp.UseDefaultCredentials = true;
                     smtp.Credentials = NetworkCred;
-                    smtp.Port = 503;// Convert.ToInt32(WebConfigurationManager.AppSettings["EmailPort"]);
+                    smtp.Port = Convert.ToInt32(WebConfigurationManager.AppSettings["EmailPort"]);
                     smtp.Send(message);
-                    Log.InfoFormat("Email", param.Email);
+                    log.InfoFormat("Email", param.Email);
                     return new LoginResponse
                     {
                         ResponseCode = "00",
@@ -631,7 +630,7 @@ namespace BusinessLogic
                 }
                 catch (Exception ex)
                 {
-                    Log.ErrorFormat("Email", param.Email, ex.Message);
+                    log.ErrorFormat("Email", param.Email, ex.Message);
                     return new LoginResponse
                     {
                         ResponseCode = "XX",

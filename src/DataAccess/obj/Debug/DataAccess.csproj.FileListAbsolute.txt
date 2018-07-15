@@ -8,3 +8,14 @@ C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\DataAccess
 C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\DataAccess\obj\Debug\DataAccess.csproj.CoreCompileInputs.cache
 C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\DataAccess\obj\Debug\DataAccess.dll
 C:\Users\USER\Documents\Visual Studio 2017\Projects\DolphinMiddleWare\DataAccess\obj\Debug\DataAccess.pdb
+C:\Development\Project\Dolphin2.0\src\DataAccess\bin\Debug\DataAccess.dll.config
+C:\Development\Project\Dolphin2.0\src\DataAccess\bin\Debug\DataAccess.dll
+C:\Development\Project\Dolphin2.0\src\DataAccess\bin\Debug\DataAccess.pdb
+C:\Development\Project\Dolphin2.0\src\DataAccess\bin\Debug\log4net.dll
+C:\Development\Project\Dolphin2.0\src\DataAccess\bin\Debug\NPoco.dll
+C:\Development\Project\Dolphin2.0\src\DataAccess\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Development\Project\Dolphin2.0\src\DataAccess\bin\Debug\log4net.xml
+C:\Development\Project\Dolphin2.0\src\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
+C:\Development\Project\Dolphin2.0\src\DataAccess\obj\Debug\DataAccess.csproj.CoreCompileInputs.cache
+C:\Development\Project\Dolphin2.0\src\DataAccess\obj\Debug\DataAccess.dll
+C:\Development\Project\Dolphin2.0\src\DataAccess\obj\Debug\DataAccess.pdb
